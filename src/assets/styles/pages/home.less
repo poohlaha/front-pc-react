@@ -1,0 +1,45 @@
+/**
+ * @fileOverview chat
+ * @date 2023-4-14
+ * @author poohlaha
+ */
+/* 页面未找到或没有权限 */
+.not-found-page,
+.no-permission-page {
+  .no-permission-content,
+  .not-found-content {
+    img {
+      width: 200px;
+      height: 200px;
+    }
+
+    .no-permission-title,
+    .not-found-title {
+      margin-top: 12px;
+      font-weight: bold;
+      font-size: @font_large;
+      color: @color;
+      line-height: 24px;
+    }
+
+    .no-permission-subtitle,
+    .not-found-subtitle {
+      margin-top: 4px;
+      font-weight: 400;
+      font-size: @font;
+      color: #646e82;
+      line-height: 22px;
+    }
+  }
+
+  .back-button {
+    margin-top: 24px;
+    width: 88px;
+    height: 32px;
+    background: @theme;
+    border-radius: 16px;
+    font-size: @font;
+    color: #ffffff;
+    line-height: 22px;
+  }
+}
