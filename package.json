@@ -13,7 +13,7 @@
     "ts"
   ],
   "author": "poohlaha",
-  "license": "ISC",
+  "license": "MIT/Apache-2.0",
   "homepage": "https://github.com/poohlaha/front-pc-react.git",
   "scripts": {
     "copy": "node ./scripts/index.js copy",
