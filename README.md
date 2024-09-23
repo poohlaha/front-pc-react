@@ -44,7 +44,6 @@
 ├── .prettierrc.js                                   // prettier文件
 ├── postcss.config.js                                // postcss文件
 ├── package.json                                     // 项目依赖和常用脚本命令配置
-├── vue.config.js                                    // vue配置文件
 └── README.md                                        // 项目使用说明文件
 ```
 
@@ -139,7 +138,7 @@
 
 - 样式
 
-* 样式统一写到 `.less` 文件中, 请忽在 `.vue` 文件内添加样式。
+* 样式统一写到 `.less` 文件中。
 * 请勿在 `style` 上添加样式。
 * 所有页面样式以 `xxx-page` 开头, 以区别页面唯一。
 * 页面中请使用 `rem`, 不允许使用 `px`。
