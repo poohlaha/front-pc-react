@@ -42,7 +42,8 @@
     "@bale-web/request": "^0.1.3"
   },
   "devDependencies": {
-    "@bale-tools/mutate-service": "^2.2.4",
+    "@bale-tools/mutate-service": "^2.2.7",
+    "@bale-tools/mutate-minimize": "^1.0.6",
     "@bale-tools/utils": "^2.0.5",
     "@bale-tools/mutate-version": "^2.1.6",
     "@bale-sprint/react": "^1.1.6",
