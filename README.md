@@ -21,7 +21,7 @@
 │   │   │    ├── pages                               // 页面样式目录
 │   │   │    └── skin                                // 皮肤目录
 │   │── communal                                     // 项目框架目录
-│   │   ├── app                                      // 存放 app.vue
+│   │   ├── app                                      // 存放 app
 │   │   ├── configs                                  // 项目配置目录
 │   │   ├── request                                  // axios目录
 │   │   └── utils                                    // 公共utils目录
