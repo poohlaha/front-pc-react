@@ -5,10 +5,11 @@
  */
 import { action, observable } from 'mobx'
 import { SYSTEM } from '@config/index'
-import { COMMON, TOAST } from '@utils/base'
+import { ADDRESS, COMMON, PAGE_JUMP, TOAST } from '@utils/base'
 import Utils from '@utils/utils'
 import SmCrypto from 'sm-crypto'
 import { HttpRequest } from '@bale-web/request'
+import RouterUrls from '@route/router.url.toml'
 
 export default class BaseStore {
   @observable loading: boolean = false
@@ -117,12 +118,34 @@ export default class BaseStore {
       return
     }
 
+    let isLogin = options.isLogin
+    if (isLogin === undefined || isLogin === null) {
+      isLogin = false
+    }
+
+    let formSubmit = options.formSubmit
+    if (formSubmit === null || formSubmit === undefined) {
+      formSubmit = false
+    }
+
+    let param: any = null
+    let data = options.data || {}
+    if (formSubmit) {
+      param = new URLSearchParams()
+      for (let key in data) {
+        param.append(key, data[key])
+      }
+    } else {
+      param = data
+    }
+
     let requestUrl = options.url || ''
     if (!requestUrl.startsWith('https://') && !requestUrl.startsWith('http://')) {
       requestUrl = process.env.API_ROOT + requestUrl
     }
 
-    let token = this.sm2Encrypt(`${Utils.getLocal(SYSTEM.LOCAL_TOKEN_NAME) || ''}_${new Date().getTime()}`)
+    // let token = isLogin ? '' : this.sm2Encrypt(`${Utils.getLocal(SYSTEM.LOCAL_TOKEN_NAME) || ''}_${new Date().getTime()}`)
+    let token = isLogin ? '' : Utils.getLocal(SYSTEM.LOCAL_TOKEN_NAME)
     console.log('token: ', Utils.getLocal(SYSTEM.LOCAL_TOKEN_NAME))
     let requestHeaders = {}
     if (!Utils.isObjectNull(headers)) {
@@ -132,18 +155,14 @@ export default class BaseStore {
     let type = options.responseStream ? '3' : '0'
     let params: any = {
       url: requestUrl,
-      data: {
-        ...this.API_DATA,
-        requestId: Utils.generateUUID(),
-        requestTime: Utils.formatDateStr(new Date(), 'yyyyMMddHHmmss'),
-        data: {
-          ...options.data,
-        },
-      },
+      data: param,
+      type: formSubmit ? '1' : '0',
       headers: {
         [this.tokenName]: token || '',
         ...requestHeaders,
       },
+      timeout: 10,
+      method: options.method ?? 'POST',
       success: (data: any = {}) => {
         if (type !== '0') {
           return options.success?.(data.body || null)
@@ -153,20 +172,31 @@ export default class BaseStore {
         if (body.code !== '0' && body.code !== 0) {
           // token 过期
           if (body.code === SYSTEM.TOKEN_EXPIRED_CODE) {
-            /*
+            let { addressUrl } = ADDRESS.getAddress()
+            if (addressUrl !== RouterUrls.SYSTEM.LOGIN_URL) {
+              TOAST.show({
+                message: COMMON.getLanguageText('TOKEN_EXPIRED_ERROR'),
+                type: 4,
+              })
+
+              setTimeout(() => {
+                PAGE_JUMP.toWindowPage(RouterUrls.SYSTEM.LOGIN_URL, true, true)
+              }, 500)
+            }
+          } else if (body.code === '-99') {
             TOAST.show({
-              message: COMMON.getLanguageText('TOKEN_EXPIRED_ERROR'),
-              type: 2
+              message: COMMON.getLanguageText('ERROR_MESSAGE'),
+              type: 4,
             })
-             */
           } else {
             let whenCodeNoZeroOpenDialog = options.whenCodeNoZeroOpenDialog
             if (whenCodeNoZeroOpenDialog === null || whenCodeNoZeroOpenDialog === undefined) {
               whenCodeNoZeroOpenDialog = true
             }
             if (whenCodeNoZeroOpenDialog) {
+              let reason = body.codeInfo || COMMON.getLanguageText('ERROR_MESSAGE')
               TOAST.show({
-                message: COMMON.getLanguageText('ERROR_MESSAGE'),
+                message: reason,
                 type: 4,
               })
             }
@@ -180,15 +210,52 @@ export default class BaseStore {
       failed: async (res: any = {}) => {
         if (res.code === SYSTEM.TOKEN_EXPIRED_CODE) {
           // await this.getLoginUrl()
-        } else {
-          options.fail?.(res)
         }
+
+        options.fail?.(res)
       },
-      type: '0',
       responseType: type,
     }
 
     return needSend ? await HttpRequest.send(params) : params
+  }
+
+  /**
+   * 批量发送
+   * @param queue
+   */
+  @action
+  async batchSend(queue: Array<any> = []) {
+    if (queue.length === 0) {
+      console.log('batch send queue is empty!')
+      return []
+    }
+
+    let results = (await Promise.all(queue)) || []
+    if (results.length === 0) return []
+
+    let data: Array<any> = []
+    for (let result of results) {
+      if (result === null || result === undefined) {
+        result = {}
+      }
+      let status = result.status
+      let body = result.body || {}
+      let errorMsg = body.error || body.codeInfo || COMMON.getLanguageText('ERROR_MESSAGE')
+      if (status !== 200) {
+        TOAST.show({ message: errorMsg, type: 4 })
+        return []
+      }
+
+      let d = body.data
+      let extendData = body.extendData
+      data.push({
+        data: d,
+        extendData,
+      })
+    }
+
+    return data
   }
 
   // 下载pdf

@@ -1,2 +1,6 @@
 # 后端路由, 需要按模块分
 
+[HOME]
+GET_MENU_LIST = '/'
+GET_DATA = '/repos/rustwasm/wasm-bindgen/branches/main'
+

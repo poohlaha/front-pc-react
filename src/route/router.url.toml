@@ -2,3 +2,9 @@
 [SYSTEM]
 HOME_URL = '/home'
 NOT_FOUND_URL = '/404'
+
+[MENU1]
+URL = '/menu1'
+
+[MENU2]
+URL = '/menu2'

@@ -7,7 +7,7 @@ import { observable, action } from 'mobx'
 import { CONSTANT } from '@config/index'
 
 class CommonStore {
-  @observable skin = CONSTANT.SKINS[1] // 皮肤
+  @observable skin = CONSTANT.SKINS[0] // 皮肤
 
   /**
    * 切换皮肤
