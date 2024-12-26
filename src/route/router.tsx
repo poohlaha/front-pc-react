@@ -15,7 +15,7 @@ export const routes: RouteInterface[] = [
     component: lazy(() => import(/* webpackChunkName:'lazy' */ '@pages/home/index')),
     name: 'home',
     auth: false,
-    title: '首页',
+    title: '首页'
   },
   {
     path: RouterUrls.SYSTEM.LOGIN_URL,
@@ -23,7 +23,7 @@ export const routes: RouteInterface[] = [
     exact: true,
     name: 'login',
     title: '登录',
-    auth: false,
+    auth: false
   },
   {
     path: `${RouterUrls.SYSTEM.HOME_URL}/*`,
@@ -31,7 +31,7 @@ export const routes: RouteInterface[] = [
     exact: true,
     name: 'home',
     title: '首页',
-    auth: false,
+    auth: false
   },
   {
     path: RouterUrls.SYSTEM.NOT_FOUND_URL,
@@ -39,6 +39,6 @@ export const routes: RouteInterface[] = [
     exact: true,
     name: 'forward',
     title: '页面发转',
-    auth: false,
-  },
+    auth: false
+  }
 ]

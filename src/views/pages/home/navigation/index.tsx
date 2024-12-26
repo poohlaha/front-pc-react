@@ -20,7 +20,7 @@ const Navigation = (): ReactElement => {
   const items: MenuProps['items'] = [
     {
       key: '1',
-      label: <p>忘记密码</p>,
+      label: <p>忘记密码</p>
     },
     {
       key: '2',
@@ -34,8 +34,8 @@ const Navigation = (): ReactElement => {
         >
           退出登录
         </p>
-      ),
-    },
+      )
+    }
   ]
 
   const render = () => {

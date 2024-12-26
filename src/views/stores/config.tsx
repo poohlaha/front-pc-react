@@ -11,7 +11,7 @@ export function createStore() {
   return {
     commonStore,
     loginStore,
-    homeStore,
+    homeStore
   }
 }
 
