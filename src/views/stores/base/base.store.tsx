@@ -9,6 +9,7 @@ import { ADDRESS, COMMON, PAGE_JUMP, TOAST } from '@utils/base'
 import Utils from '@utils/utils'
 import SmCrypto from 'sm-crypto'
 import { HttpRequest } from '@bale-web/request'
+import WasmUtils from '@stores/base/wasm'
 import RouterUrls from '@route/router.url.toml'
 
 export default class BaseStore {
@@ -24,7 +25,7 @@ export default class BaseStore {
     appVersion: '1.0',
     opStation: 'NA',
     appId: 'KJMHWEB',
-    channel: 'web',
+    channel: 'web'
   }
 
   readonly SUFFIXS: Array<string> = [
@@ -59,8 +60,10 @@ export default class BaseStore {
     'xlsx',
     'ppt',
     'pptx',
-    'ofd',
+    'ofd'
   ]
+
+  readonly wasmUtils = new WasmUtils()
 
   /**
    * 获取相对路径
@@ -159,7 +162,7 @@ export default class BaseStore {
       type: formSubmit ? '1' : '0',
       headers: {
         [this.tokenName]: token || '',
-        ...requestHeaders,
+        ...requestHeaders
       },
       timeout: 10,
       method: options.method ?? 'POST',
@@ -176,7 +179,7 @@ export default class BaseStore {
             if (addressUrl !== RouterUrls.SYSTEM.LOGIN_URL) {
               TOAST.show({
                 message: COMMON.getLanguageText('TOKEN_EXPIRED_ERROR'),
-                type: 4,
+                type: 4
               })
 
               setTimeout(() => {
@@ -186,7 +189,7 @@ export default class BaseStore {
           } else if (body.code === '-99') {
             TOAST.show({
               message: COMMON.getLanguageText('ERROR_MESSAGE'),
-              type: 4,
+              type: 4
             })
           } else {
             let whenCodeNoZeroOpenDialog = options.whenCodeNoZeroOpenDialog
@@ -197,7 +200,7 @@ export default class BaseStore {
               let reason = body.codeInfo || COMMON.getLanguageText('ERROR_MESSAGE')
               TOAST.show({
                 message: reason,
-                type: 4,
+                type: 4
               })
             }
           }
@@ -214,10 +217,37 @@ export default class BaseStore {
 
         options.fail?.(res)
       },
-      responseType: type,
+      responseType: type
     }
 
-    return needSend ? await HttpRequest.send(params) : params
+    if (!needSend) {
+      return params
+    }
+
+    // 判官是否支持 wasm
+    if (this.isSupportWasm()) {
+      const fallbackModule = await import('@bale-wasm/http')
+      let response = await fallbackModule.send(params, null)
+      return this.wasmUtils.onHandleResult(params, response)
+    }
+
+    return await HttpRequest.send(params)
+  }
+
+  /**
+   * 判断是否支持 wasm
+   */
+  @action
+  isSupportWasm() {
+    if (typeof WebAssembly === 'object' && typeof WebAssembly.instantiate === 'function') {
+      // 浏览器支持WebAssembly
+      console.log('WebAssembly is supported')
+      return true
+    } else {
+      // 浏览器不支持WebAssembly
+      console.log('WebAssembly is not supported')
+      return false
+    }
   }
 
   /**
@@ -251,7 +281,7 @@ export default class BaseStore {
       let extendData = body.extendData
       data.push({
         data: d,
-        extendData,
+        extendData
       })
     }
 
@@ -357,11 +387,11 @@ export default class BaseStore {
     }
 
     let type = options.responseStream ? '3' : '0'
-    await HttpRequest.send({
+    const params: { [K: string]: any } = {
       url: requestUrl,
       headers: {
         [this.tokenName]: token || '',
-        ...requestHeaders,
+        ...requestHeaders
       },
       data: options.data,
       method: options.method || '',
@@ -378,12 +408,12 @@ export default class BaseStore {
           if (body.code === SYSTEM.TOKEN_EXPIRED_CODE) {
             TOAST.show({
               message: COMMON.getLanguageText('TOKEN_EXPIRED_ERROR'),
-              type: 2,
+              type: 2
             })
           } else {
             TOAST.show({
               message: COMMON.getLanguageText('ERROR_MESSAGE'),
-              type: 4,
+              type: 4
             })
           }
 
@@ -399,7 +429,16 @@ export default class BaseStore {
           options.fail?.(res)
         }
       },
-      type: '2',
-    })
+      type: '2'
+    }
+
+    // 判官是否支持 wasm
+    if (this.isSupportWasm()) {
+      const fallbackModule = await import('@bale-wasm/http')
+      let response = await fallbackModule.send(params, null)
+      return this.wasmUtils.onHandleResult(params, response)
+    }
+
+    await HttpRequest.send(params)
   }
 }

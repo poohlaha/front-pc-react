@@ -134,6 +134,7 @@ class ProjectBuilder {
     const options = {
       script: this._script,
       opts: {
+        target: ['web', 'es2020'],
         entry: path.resolve(this._appRootDir, 'src/communal/index.tsx'),
         settings: {
           jsLoaderInclude: [
@@ -144,7 +145,10 @@ class ProjectBuilder {
           usePurgecssPlugin: false,
           usePwaPlugin: false,
           useMinimize: true,
-          experiments: false,
+          experiments: {
+            asyncWebAssembly: true,
+            // topLevelAwait: true, // 如果需要顶层 await 支持
+          },
           generateReport: false,
           useTerserWebpackPlugin: true,
           providePlugin: {

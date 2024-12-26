@@ -4,7 +4,6 @@
  * @author poohlaha
  */
 import { observable, action } from 'mobx'
-import { CONSTANT } from '@config/index'
 import BaseStore from '@stores/base/base.store'
 import RouterUrls from '@route/router.url.toml'
 import { lazy } from 'react'
@@ -26,17 +25,17 @@ class HomeStore extends BaseStore {
           label: '子菜单一',
           url: RouterUrls.MENU1.URL,
           component: lazy(() => import(/* webpackChunkName:'menu1' */ '@pages/menu1/index')),
-          childs: [], // 详情页面等子页面
+          childs: [] // 详情页面等子页面
         },
         {
           key: 'menu1-sub-2',
           label: '子菜单二',
           url: RouterUrls.MENU2.URL,
           component: lazy(() => import(/* webpackChunkName:'menu2' */ '@pages/menu2/index')),
-          childs: [], // 详情页面等子页面
-        },
-      ],
-    },
+          childs: [] // 详情页面等子页面
+        }
+      ]
+    }
   ]
 
   // 动态菜单列表
@@ -45,7 +44,7 @@ class HomeStore extends BaseStore {
   // 菜单操作
   @observable menuOperate: { [K: string]: any } = {
     expandKeys: [],
-    activeKey: '',
+    activeKey: ''
   }
 
   // 数据
@@ -58,7 +57,7 @@ class HomeStore extends BaseStore {
   init() {
     this.menuOperate = {
       expandKeys: [],
-      activeKey: '',
+      activeKey: ''
     }
 
     let { addressUrl } = ADDRESS.getAddress()
@@ -104,7 +103,6 @@ class HomeStore extends BaseStore {
 
       return child
     }
-    let permissions: Array<string> = []
     menus.forEach((menu: { [K: string]: any }) => {
       let children = menu.children || []
       children.forEach((child: { [K: string]: any }) => {
@@ -157,13 +155,13 @@ class HomeStore extends BaseStore {
     return await this.send({
       url: BackUrls.HOME.GET_MENU_LIST,
       data: {},
-      success: async (data: Array<{ [K: string]: any }> = [], res: { [K: string]: any } = {}) => {
+      success: async (data: Array<{ [K: string]: any }> = []) => {
         this.loading = false
         this.menuList = data || []
       },
       fail: () => {
         this.loading = false
-      },
+      }
     })
   }
 
@@ -186,7 +184,7 @@ class HomeStore extends BaseStore {
         if (!Utils.isBlank(child.url || '') && child.component) {
           routes.push({
             path: child.url || '',
-            component: child.component || null,
+            component: child.component || null
           })
         }
 
@@ -195,7 +193,7 @@ class HomeStore extends BaseStore {
           if (!Utils.isBlank(c.url || '') && c.component) {
             routes.push({
               path: c.url || '',
-              component: c.component || null,
+              component: c.component || null
             })
           }
         })
@@ -205,7 +203,7 @@ class HomeStore extends BaseStore {
             if (!Utils.isBlank(child.url || '') && child.component) {
               obj = {
                 path: child.url || '',
-                component: child.component || null,
+                component: child.component || null
               }
             }
           }
@@ -223,20 +221,20 @@ class HomeStore extends BaseStore {
   async getList() {
     this.loading = true
     const headers = {
-      Accept: 'application/vnd.github.v3+json',
+      Accept: 'application/vnd.github.v3+json'
     }
     return await this.send(
       {
         url: BackUrls.HOME.GET_DATA,
         data: {},
         method: 'GET',
-        success: async (data: { [K: string]: any } = {}, res: { [K: string]: any } = {}) => {
+        success: async (data: { [K: string]: any } = {}) => {
           this.loading = false
           this.data = data || {}
         },
         fail: () => {
           this.loading = false
-        },
+        }
       },
       true,
       headers
@@ -253,7 +251,7 @@ class HomeStore extends BaseStore {
       url: 'https://api.github.com/repos/rustwasm/wasm-bindgen/branches/master',
       method: 'get',
       headers: {
-        Accept: 'application/vnd.github.v3+json',
+        Accept: 'application/vnd.github.v3+json'
       },
       type: '0',
       responseType: '0',
@@ -266,7 +264,7 @@ class HomeStore extends BaseStore {
       failed: (response: { [K: string]: any } = {}) => {
         console.error('failed: ', response)
         this.loading = false
-      },
+      }
     }
 
     return await HttpRequest.send(opts)
@@ -293,7 +291,7 @@ class HomeStore extends BaseStore {
       new Promise(async resolve => {
         const res = await this.getData()
         resolve(res)
-      }),
+      })
     ])
 
     this.loading = false
