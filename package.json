@@ -51,7 +51,7 @@
     "@bale-sprint/react": "^1.2.1",
     "@bale-tools/mutate-minimize": "^1.0.7",
     "@bale-tools/mutate-service": "^2.3.8",
-    "@bale-tools/mutate-version": "^2.3.4",
+    "@bale-tools/mutate-version": "^2.3.6",
     "@bale-tools/utils": "^2.0.8",
     "@commitlint/cli": "^19.7.1",
     "@commitlint/config-conventional": "^19.7.1",
