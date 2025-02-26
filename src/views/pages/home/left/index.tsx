@@ -10,7 +10,7 @@ import Utils from '@utils/utils'
 import { useNavigate } from 'react-router-dom'
 import RouterUrls from '@route/router.url.toml'
 
-const Left: React.FC<IRouterProps> = (props: IRouterProps): ReactElement => {
+const Left: React.FC<IRouterProps> = (): ReactElement => {
   const { homeStore } = useStore()
   const navigate = useNavigate()
 
@@ -39,7 +39,10 @@ const Left: React.FC<IRouterProps> = (props: IRouterProps): ReactElement => {
                       keys.push(menu.key)
                       homeStore.menuOperate.expandKeys = keys
                     } else {
-                      homeStore.menuOperate.expandKeys = keys.filter((key: string) => key !== menu.key) || []
+                      homeStore.menuOperate.expandKeys =
+                        keys.filter((key: string) => {
+                          return key !== menu.key
+                        }) || []
                     }
 
                     if (!Utils.isBlank(menu.url)) {
