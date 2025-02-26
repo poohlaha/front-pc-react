@@ -42,7 +42,6 @@ class Builder {
     this._mutateVersion = new MutateVersion({ language: 'react', babelImportPluginName: '', useTypescript: true })
   }
 
-
   // 获取输入命令 0: clean 1: copy files 2: start 3: dev 4: prod
   _getCommand() {
     const commands = this._args.filter(x => !x.startsWith('--')) || []

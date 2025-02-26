@@ -7,13 +7,13 @@ const _ = require('lodash')
 const chalk = require('chalk')
 const lineByLine = require('n-readlines')
 const inquirer = require('inquirer')
-const os = require('node:os');
+const os = require('node:os')
 
 const LOGGER_PREFIX = chalk.cyan('[Frame Updater]: ')
 class Updater {
   constructor() {
     this.appRootDir = BaleUtils.Paths.getAppRootDir() || ''
-    this.configFilePath = path.join(this.appRootDir, '.updaterc');
+    this.configFilePath = path.join(this.appRootDir, '.updaterc')
     this.updateDir = path.join(this.appRootDir, '.update')
     this.updateUrl = 'https://github.com/poohlaha/front-pc-react.git'
     this.updateProjectName = 'front-pc-react'
@@ -33,7 +33,7 @@ class Updater {
     let ignores = []
 
     let line
-    while (line = liner.next()) {
+    while ((line = liner.next())) {
       let _line = line.toString().trim()
       if (BaleUtils.Utils.isBlank(_line)) {
         continue
@@ -75,7 +75,8 @@ class Updater {
     // 读取 dests 所有文件
     this.dests.forEach(dest => {
       let destPath = path.resolve(gitProjectPath, dest)
-      if (BaleUtils.Paths.isDir(destPath)) { // 目录
+      if (BaleUtils.Paths.isDir(destPath)) {
+        // 目录
         destFiles = destFiles.concat(BaleUtils.Paths.getFileList(destPath) || [])
       } else {
         destFiles.push(destPath)
@@ -85,7 +86,8 @@ class Updater {
     // 读取 ignores 所有文件
     this.ignores.forEach(ignore => {
       let ignorePath = path.resolve(gitProjectPath, ignore)
-      if (BaleUtils.Paths.isDir(ignorePath)) { // 目录
+      if (BaleUtils.Paths.isDir(ignorePath)) {
+        // 目录
         ignoreFiles = ignoreFiles.concat(BaleUtils.Paths.getFileList(ignorePath) || [])
       } else {
         ignoreFiles.push(ignorePath)
@@ -102,7 +104,7 @@ class Updater {
 
     let updateFiles = []
     // 合并文件，去除 ignore 文件
-    this.destFiles.map((dest = '') => {
+    this.destFiles.forEach((dest = '') => {
       let _dest = dest.trim()
       if (!this.ignoreFiles.includes(_dest)) {
         updateFiles.push(_dest)
@@ -146,7 +148,10 @@ class Updater {
     }
 
     // 拷贝 package.json
-    fsExtra.copySync(path.join(this.updateDir, this.updateProjectName, 'package.json'), path.join(updatePath, 'package.json'))
+    fsExtra.copySync(
+      path.join(this.updateDir, this.updateProjectName, 'package.json'),
+      path.join(updatePath, 'package.json')
+    )
     // 清空原来目录
     BaleUtils.Paths.cleanDir(path.join(this.updateDir, this.updateProjectName), false)
     // 拷贝到原始目录
@@ -154,7 +159,10 @@ class Updater {
     // 删除临时目录
     BaleUtils.Paths.cleanDir(updatePath, false)
 
-    console.log(LOGGER_PREFIX, `获取更新文件成功, 文件个数: ${chalk.magenta(count + 1)}, 路径: ${chalk.magenta(projectDir)}`)
+    console.log(
+      LOGGER_PREFIX,
+      `获取更新文件成功, 文件个数: ${chalk.magenta(count + 1)}, 路径: ${chalk.magenta(projectDir)}`
+    )
   }
 
   async updater(flag = false) {
@@ -204,7 +212,7 @@ class Updater {
       const hasWrite = this.updatePackageJson(path.join(projectDir, 'package.json'))
       if (hasWrite) {
         count++
-        BaleUtils.Paths.install()  // install
+        BaleUtils.Paths.install() // install
       }
 
       console.log(LOGGER_PREFIX, `更新文件成功, 个数: ${chalk.magenta(count)}`)
@@ -245,13 +253,17 @@ class Updater {
     }
 
     let hasDependenciesWrite = rewriteDependencies(descPackage.dependencies || {}, appPackage.dependencies || {})
-    let hasDevDependenciesWrite = rewriteDependencies(descPackage.devDependencies || {}, appPackage.devDependencies || {})
+    let hasDevDependenciesWrite = rewriteDependencies(
+      descPackage.devDependencies || {},
+      appPackage.devDependencies || {}
+    )
     let flag = hasDependenciesWrite || hasDevDependenciesWrite
 
     // judge `husky` and `lint-staged`
     const appPackageHusky = appPackage['husky'] || {}
     const appPackageLintStaged = appPackage['lint-staged'] || {}
-    let configFlag = _.isEqual(appPackageHusky, descPackage['husky']) && _.isEqual(appPackageLintStaged, descPackage['lint-staged'])
+    let configFlag =
+      _.isEqual(appPackageHusky, descPackage['husky']) && _.isEqual(appPackageLintStaged, descPackage['lint-staged'])
     const hasWrite = flag || !configFlag
 
     if (hasWrite) {

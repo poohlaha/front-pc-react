@@ -120,7 +120,10 @@ class ProjectBuilder {
       },
       done: () => {
         const endTime = performance.now()
-        console.log(LoggerPrefix, `Finished ${chalk.cyan('build dll')} after ${chalk.magenta(`${endTime - startTime} ms`)}`)
+        console.log(
+          LoggerPrefix,
+          `Finished ${chalk.cyan('build dll')} after ${chalk.magenta(`${endTime - startTime} ms`)}`
+        )
         if (needBuild) this._build()
       }
     })
@@ -146,14 +149,12 @@ class ProjectBuilder {
           usePwaPlugin: false,
           useMinimize: true,
           experiments: {
-            asyncWebAssembly: true,
+            asyncWebAssembly: true
             // topLevelAwait: true, // 如果需要顶层 await 支持
           },
           generateReport: false,
           useTerserWebpackPlugin: true,
-          providePlugin: {
-
-          },
+          providePlugin: {},
           compress: {
             enable: true,
             deleteOutput: true,
@@ -174,8 +175,8 @@ class ProjectBuilder {
       // 读取 .vendor 目录下的 manifest 文件
       const dllDir = this._dllDir
       if (fsExtra.pathExistsSync(dllDir)) {
-        const files = (Paths.getFileList(dllDir) || []).filter((file) => path.extname(file) === '.json')
-        const manifestList = files.map((file) => file.replace('.json', ''))
+        const files = (Paths.getFileList(dllDir) || []).filter(file => path.extname(file) === '.json')
+        const manifestList = files.map(file => file.replace('.json', ''))
         options.opts.dllSettings = {
           dllOutput: this._dllDir,
           manifestList
@@ -204,13 +205,13 @@ class ProjectBuilder {
 
     this.copy()
 
-    if (this._script === this._SCRIPTS[0]) { // start
+    if (this._script === this._SCRIPTS[0]) {
+      // start
       return this._build()
     }
 
     return this._buildDll()
   }
-
 }
 
 module.exports = ProjectBuilder

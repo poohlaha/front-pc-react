@@ -55,3 +55,4 @@ src/@types/global.d.ts
 .update
 .husky
 
+eslint.config.js
