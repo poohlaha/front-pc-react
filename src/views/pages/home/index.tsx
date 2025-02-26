@@ -12,7 +12,7 @@ import Left from '@pages/home/left'
 import Right from '@pages/home/right'
 import Utils from '@utils/utils'
 
-const Home: React.FC<IRouterProps> = (props: IRouterProps): ReactElement => {
+const Home: React.FC = (): ReactElement => {
   const { homeStore } = useStore()
 
   useMount(async () => {
@@ -36,19 +36,17 @@ const Home: React.FC<IRouterProps> = (props: IRouterProps): ReactElement => {
     }
   }, [location.pathname])
 
-  const render = () => {
-    return (
-      <div className="home-page wh100 flex-direction-column overflow-hidden">
-        {/* 导航栏 */}
-        <Navigation />
+  const render = () => (
+    <div className="home-page wh100 flex-direction-column overflow-hidden">
+      {/* 导航栏 */}
+      <Navigation />
 
-        <div className="content-wrapper wh100 flex overflow-hidden">
-          <Left />
-          <Right />
-        </div>
+      <div className="content-wrapper wh100 flex overflow-hidden">
+        <Left />
+        <Right />
       </div>
-    )
-  }
+    </div>
+  )
 
   return render()
 }
