@@ -125,8 +125,8 @@ class ProjectBuilder {
       done: () => {
         const endTime = performance.now()
         console.log(
-          LoggerPrefix,
-          `Finished ${chalk.cyan('build dll')} after ${chalk.magenta(`${endTime - startTime} ms`)}`
+            LoggerPrefix,
+            `Finished ${chalk.cyan('build dll')} after ${chalk.magenta(`${endTime - startTime} ms`)}`
         )
         if (needBuild) this._build()
       }
@@ -143,6 +143,17 @@ class ProjectBuilder {
       opts: {
         target: ['web', 'es2020'],
         entry: path.resolve(this._appRootDir, 'src/communal/index.tsx'),
+        loaders: [
+          {
+            test: /\.css$/i,
+            exclude: /node_modules/,
+            use: [
+              { loader: "style-loader" },
+              { loader: "css-loader" },
+              { loader: "postcss-loader" }
+            ]
+          },
+        ],
         settings: {
           jsLoaderInclude: [
             path.resolve(this._copyDir, 'src/common'),
