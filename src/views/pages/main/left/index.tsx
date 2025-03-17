@@ -47,7 +47,7 @@ const Left = (): ReactElement => {
             mode="inline"
             selectedKeys={homeStore.selectedMenuKeys}
             onSelect={({ selectedKeys }) => (homeStore.selectedMenuKeys = selectedKeys || [])}
-            defaultOpenKeys={[RouterUrls.BASIC_DATA.PREFIX_URL]}
+            defaultOpenKeys={[RouterUrls.BASIC_DATA.PREFIX_URL, RouterUrls.PERMISSION.PREFIX_URL]}
           />
         </div>
       </div>

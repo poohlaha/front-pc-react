@@ -7,7 +7,7 @@ import { action, observable } from 'mobx'
 import BaseStore from '@stores/base/base.store'
 import RouterUrls from '@route/router.url.toml'
 import React, { lazy } from 'react'
-import { AppstoreOutlined, SettingOutlined } from '@ant-design/icons'
+import { AppstoreOutlined, SettingOutlined, DotChartOutlined } from '@ant-design/icons'
 import BackUrls from '@route/router.back.toml'
 import { ADDRESS, TOAST } from '@utils/base'
 import Utils from '@utils/utils'
@@ -30,6 +30,13 @@ class HomeStore extends BaseStore {
 
   readonly MENU_LIST = [
     {
+      key: RouterUrls.DASHBOARD.URL,
+      label: RouterUrls.DASHBOARD.NAME,
+      url: RouterUrls.DASHBOARD.URL,
+      icon: <DotChartOutlined />,
+      component: lazy(() => import(/* webpackChunkName:'dashboard' */ '@views/pages/sample/dashboard'))
+    },
+    {
       key: RouterUrls.BASIC_DATA.PREFIX_URL,
       label: RouterUrls.BASIC_DATA.NAME,
       url: RouterUrls.BASIC_DATA.PREFIX_URL,
@@ -39,7 +46,7 @@ class HomeStore extends BaseStore {
           key: RouterUrls.BASIC_DATA.REGISTER.URL,
           label: RouterUrls.BASIC_DATA.REGISTER.NAME,
           url: RouterUrls.BASIC_DATA.REGISTER.URL,
-          component: lazy(() => import(/* webpackChunkName:'gfxnrsh' */ '@views/pages/sample/basic/register'))
+          component: lazy(() => import(/* webpackChunkName:'register' */ '@views/pages/sample/basic/register'))
         }
       ]
     },
@@ -53,13 +60,13 @@ class HomeStore extends BaseStore {
           key: RouterUrls.PERMISSION.USER.URL,
           label: RouterUrls.PERMISSION.USER.NAME,
           url: RouterUrls.PERMISSION.USER.URL,
-          component: lazy(() => import(/* webpackChunkName:'mgc' */ '@views/pages/sample/permission/user'))
+          component: lazy(() => import(/* webpackChunkName:'user' */ '@views/pages/sample/permission/user'))
         },
         {
           key: RouterUrls.PERMISSION.ROLE.URL,
           label: RouterUrls.PERMISSION.ROLE.NAME,
           url: RouterUrls.PERMISSION.ROLE.URL,
-          component: lazy(() => import(/* webpackChunkName:'gfxnrsh' */ '@views/pages/sample/permission/role'))
+          component: lazy(() => import(/* webpackChunkName:'role' */ '@views/pages/sample/permission/role'))
         }
       ]
     }
@@ -76,8 +83,13 @@ class HomeStore extends BaseStore {
     let { addressUrl } = ADDRESS.getAddress()
     console.log('addressUrl', addressUrl)
 
+    // dashboard
+    if (addressUrl === '/' || Utils.isBlank(addressUrl || '')) {
+      this.selectedMenuKeys = ['/']
+      return
+    }
+
     // 如果有三层 /, 去掉最后一层
-    if (addressUrl === '/' || Utils.isBlank(addressUrl || '')) return
     if (addressUrl.endsWith('/')) {
       addressUrl = addressUrl.substring(0, addressUrl.length - 1)
     }

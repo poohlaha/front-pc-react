@@ -4,6 +4,10 @@ HOME_URL = ''
 LOGIN_URL = '/login'
 NOT_FOUND_URL = '/404'
 
+[DASHBOARD]
+URL = '/'
+NAME = '工作台'
+
 # basic
 [BASIC_DATA]
 PREFIX_URL = '/basic'
