@@ -136,7 +136,7 @@ export default class BaseStore {
 
     let formSubmit = options.formSubmit
     if (formSubmit === null || formSubmit === undefined) {
-      formSubmit = true
+      formSubmit = false
     }
 
     let param: any = null
