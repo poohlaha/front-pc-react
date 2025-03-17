@@ -69,6 +69,7 @@ class LoginStore extends BaseStore {
       success: async (res: { [K: string]: any } = {}) => {
         this.loading = false
         TOAST.show({ message: '登录成功', type: 2 })
+        this.onReset()
         USER.clearUserInfo()
         USER.setUserInfo(res || {})
         callback?.()
@@ -94,6 +95,7 @@ class LoginStore extends BaseStore {
       success: async (_: { [K: string]: any } = {}) => {
         TOAST.show({ message: '登出成功', type: 2 })
         this.onClear()
+        this.onReset()
         callback?.()
       },
       fail: () => {}
@@ -132,8 +134,13 @@ class LoginStore extends BaseStore {
     USER.clearUserInfo()
   }
 
+  /**
+   * 重置数据
+   */
   @action
   onReset() {
+    this.graphicImage = ''
+    this.graphicImageId = ''
     this.form = {
       loginName: '',
       password: '',

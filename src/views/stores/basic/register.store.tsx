@@ -78,6 +78,15 @@ class RegisterStore extends BasicStore {
       }
     })
   }
+
+  /**
+   * 重置数据
+   */
+  @action
+  onReset() {
+    this.list = []
+    this.searchForm = Utils.deepCopy(this.DEFAULT_SEARCH_FORM)
+  }
 }
 
 export default new RegisterStore()

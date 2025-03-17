@@ -138,6 +138,16 @@ class HomeStore extends BaseStore {
       }
     })
   }
+
+  /**
+   * 重置数据
+   */
+  @action
+  onReset() {
+    this.selectedMenuKeys = []
+    this.userInfo = {}
+    this.updatePwdForm = Utils.deepCopy(this.UPDATE_PWD_FORM)
+  }
 }
 
 export default new HomeStore()

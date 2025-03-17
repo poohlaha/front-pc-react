@@ -3,7 +3,7 @@
  * @date 2023-08-28
  * @author poohlaha
  */
-import React, { ReactElement } from 'react'
+import React, { ReactElement, useEffect } from 'react'
 import { observer } from 'mobx-react-lite'
 import { useStore } from '@views/stores'
 import dayjs from 'dayjs'
@@ -17,6 +17,12 @@ const Dashboard = (): ReactElement => {
   useMount(async () => {
     await dashboardStore.getDetailInfo()
   })
+
+  useEffect(() => {
+    return () => {
+      dashboardStore.onReset()
+    }
+  }, [])
 
   const getWelcome = () => {
     const now = dayjs()

@@ -49,6 +49,14 @@ class RoleStore extends PermissionStore {
       }
     })
   }
+
+  /**
+   * 重置数据
+   */
+  @action
+  onReset() {
+    this.list = []
+  }
 }
 
 export default new RoleStore()

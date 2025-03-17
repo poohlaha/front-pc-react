@@ -40,6 +40,7 @@ const Home = (): ReactElement => {
           onLogout={async () => {
             await loginStore.onLogout(async () => {
               await loginStore.getVerificationCode()
+              homeStore.onReset()
               setTimeout(() => {
                 navigate(RouterUrls.SYSTEM.LOGIN_URL)
               }, 300)

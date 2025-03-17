@@ -47,6 +47,14 @@ class DashboardStore extends BaseStore {
       }
     })
   }
+
+  /**
+   * 重置数据
+   */
+  @action
+  onReset() {
+    this.detailInfo = {}
+  }
 }
 
 export default new DashboardStore()

@@ -3,7 +3,7 @@
  * @date 2023-08-28
  * @author poohlaha
  */
-import React, { ReactElement, useState } from 'react'
+import React, { ReactElement, useEffect, useState } from 'react'
 import { observer } from 'mobx-react-lite'
 import Page from '@views/modules/page'
 import { useStore } from '@views/stores'
@@ -21,6 +21,12 @@ const Role = (): ReactElement => {
     window.addEventListener('resize', () => setTableHeight(roleStore.resize('role-page')))
     await roleStore.getList(() => setTableHeight(roleStore.resize('role-page')))
   })
+
+  useEffect(() => {
+    return () => {
+      roleStore.onReset()
+    }
+  }, [])
 
   const COLUMNS: any = [
     {

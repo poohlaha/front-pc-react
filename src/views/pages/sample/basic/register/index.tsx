@@ -3,7 +3,7 @@
  * @date 2023-08-28
  * @author poohlaha
  */
-import React, { ReactElement, useState } from 'react'
+import React, { ReactElement, useEffect, useState } from 'react'
 import { observer } from 'mobx-react-lite'
 import Page from '@views/modules/page'
 import { useStore } from '@views/stores'
@@ -22,6 +22,12 @@ const Register = (): ReactElement => {
     window.addEventListener('resize', () => setTableHeight(registerStore.resize('register-page')))
     await registerStore.getList(() => setTableHeight(registerStore.resize('register-page')))
   })
+
+  useEffect(() => {
+    return () => {
+      registerStore.onReset()
+    }
+  }, [])
 
   const COLUMNS: any = [
     {
