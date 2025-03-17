@@ -5,26 +5,33 @@
  */
 import { action, observable } from 'mobx'
 import { SYSTEM } from '@config/index'
-import { ADDRESS, COMMON, PAGE_JUMP, TOAST } from '@utils/base'
+import { COMMON, PAGE_JUMP, TOAST, USER } from '@utils/base'
 import Utils from '@utils/utils'
 import SmCrypto from 'sm-crypto'
 import { HttpRequest } from '@bale-web/request'
 import WasmUtils from '@stores/base/wasm'
 import RouterUrls from '@route/router.url.toml'
+import { IHttpRequestProps } from '@bale-web/request/lib/client'
 
 export default class BaseStore {
   @observable loading: boolean = false
   @observable currentPage: number = 1
-  @observable pageSize: number = 10
-  readonly tokenName: string = 'token'
+  readonly DEFAULT_PAGE_SIZE = 10
+  @observable pageSize: number = this.DEFAULT_PAGE_SIZE
+  @observable total: number = 0
+  readonly pageSizeOptions = [10, 20, 50, 100]
+  readonly DATE_FORMAT = 'YYYY-MM-DD'
+
+  readonly tokenName: string = 'sys_token'
   readonly DOMAIN_PORT_REG = /^https?:\/\/[^\\/]+\/([^?#]+(\?[^#]*)?)?/
+  readonly PHONE_REG = /^1(3|4|5|6|7|8|9)\d{9}$/
 
   readonly API_DATA = {
     localIp: '127.0.0.1',
     version: '1.0',
-    appVersion: '1.0',
+    appVersion: '1.0', // 版本号
     opStation: 'NA',
-    appId: 'KJMHWEB',
+    appId: 'CHATPC',
     channel: 'web'
   }
 
@@ -66,6 +73,24 @@ export default class BaseStore {
   readonly wasmUtils = new WasmUtils()
 
   /**
+   * 判断用户是否过期
+   */
+  @action
+  onJudgeUserExpired() {
+    let userInfo = USER.getUserInfo() || {}
+    return Utils.isBlank(userInfo.mobile || '')
+  }
+
+  /**
+   * 从 LocalStorage 中获取 Boolean 值
+   * @param name
+   */
+  onGetLocalBooleanValue(name: string = ''): boolean {
+    const str = Utils.getLocal(name) || ''
+    return str === 'true'
+  }
+
+  /**
    * 获取相对路径
    */
   @action
@@ -85,24 +110,6 @@ export default class BaseStore {
   }
 
   /**
-   * 设置属性
-   */
-  @action
-  setProperty = (property: any, value: any) => {
-    // @ts-ignore
-    this[property] = value
-  }
-
-  /**
-   * 获取属性
-   */
-  @action
-  getProperty = (property: any) => {
-    // @ts-ignore
-    return this[property]
-  }
-
-  /**
    * 发送请求
    * options: {
    *   url: '',
@@ -110,6 +117,7 @@ export default class BaseStore {
    *   fail: () => {}
    * }
    */
+  @action
   async send(options: { [K: string]: any } = {}, needSend: boolean = true, headers: { [K: string]: any } = {}) {
     if (Utils.isObjectNull(options)) {
       console.warn('options is empty !')
@@ -128,7 +136,7 @@ export default class BaseStore {
 
     let formSubmit = options.formSubmit
     if (formSubmit === null || formSubmit === undefined) {
-      formSubmit = false
+      formSubmit = true
     }
 
     let param: any = null
@@ -150,12 +158,15 @@ export default class BaseStore {
     // let token = isLogin ? '' : this.sm2Encrypt(`${Utils.getLocal(SYSTEM.LOCAL_TOKEN_NAME) || ''}_${new Date().getTime()}`)
     let token = isLogin ? '' : Utils.getLocal(SYSTEM.LOCAL_TOKEN_NAME)
     console.log('token: ', Utils.getLocal(SYSTEM.LOCAL_TOKEN_NAME))
+
     let requestHeaders = {}
     if (!Utils.isObjectNull(headers)) {
       requestHeaders = headers
     }
 
-    let type = options.responseStream ? '3' : '0'
+    const userInfo = USER.getUserInfo() || {}
+    console.log(userInfo)
+    let type = options.responseStream ? '3' : Utils.isBlank(options.responseType || '') ? '0' : options.responseType
     let params: any = {
       url: requestUrl,
       data: param,
@@ -175,17 +186,16 @@ export default class BaseStore {
         if (body.code !== '0' && body.code !== 0) {
           // token 过期
           if (body.code === SYSTEM.TOKEN_EXPIRED_CODE) {
-            let { addressUrl } = ADDRESS.getAddress()
-            if (addressUrl !== RouterUrls.SYSTEM.LOGIN_URL) {
-              TOAST.show({
-                message: COMMON.getLanguageText('TOKEN_EXPIRED_ERROR'),
-                type: 4
-              })
+            TOAST.show({
+              message: COMMON.getLanguageText('TOKEN_EXPIRED_ERROR'),
+              type: 4
+            })
+            Utils.clearLocalStorage()
+            Utils.clearSessionStorage()
 
-              setTimeout(() => {
-                PAGE_JUMP.toWindowPage(RouterUrls.SYSTEM.LOGIN_URL, true, true)
-              }, 500)
-            }
+            setTimeout(() => {
+              PAGE_JUMP.toWindowPage(RouterUrls.SYSTEM.LOGIN_URL, true, true)
+            }, 500)
           } else if (body.code === '-99') {
             TOAST.show({
               message: COMMON.getLanguageText('ERROR_MESSAGE'),
@@ -225,11 +235,16 @@ export default class BaseStore {
     }
 
     // 判官是否支持 wasm
-    if (this.isSupportWasm()) {
-      const fallbackModule = await import('@bale-wasm/http')
-      let response = await fallbackModule.send(params, null)
-      return this.wasmUtils.onHandleResult(params, response)
+    /*
+    if (type !== '6') {
+      if (this.isSupportWasm()) {
+        console.log('params', params)
+        const fallbackModule = await import('@bale-wasm/http')
+        let response = await fallbackModule.send(params, null)
+        return this.wasmUtils.onHandleResult(params, response)
+      }
     }
+     */
 
     return await HttpRequest.send(params)
   }
@@ -243,11 +258,10 @@ export default class BaseStore {
       // 浏览器支持WebAssembly
       console.log('WebAssembly is supported')
       return true
-    } else {
-      // 浏览器不支持WebAssembly
-      console.log('WebAssembly is not supported')
-      return false
     }
+    // 浏览器不支持WebAssembly
+    console.log('WebAssembly is not supported')
+    return false
   }
 
   /**
@@ -410,12 +424,12 @@ export default class BaseStore {
               message: COMMON.getLanguageText('TOKEN_EXPIRED_ERROR'),
               type: 2
             })
-          } else {
-            TOAST.show({
-              message: COMMON.getLanguageText('ERROR_MESSAGE'),
-              type: 4
-            })
+            return options.fail?.(body || {}, true)
           }
+          TOAST.show({
+            message: COMMON.getLanguageText('ERROR_MESSAGE'),
+            type: 4
+          })
 
           return options.fail?.(body || {})
         }
@@ -439,6 +453,50 @@ export default class BaseStore {
       return this.wasmUtils.onHandleResult(params, response)
     }
 
-    await HttpRequest.send(params)
+    await HttpRequest.send(params as IHttpRequestProps)
+  }
+
+  /**
+   * 页面大小重置
+   */
+  @action
+  resize = (pageName: string = '') => {
+    const dom = document.querySelector(`.${pageName || ''}`)
+    if (!dom) return 0
+
+    let totalHeight = dom.getBoundingClientRect().height
+    // title
+    const titleDom = document.querySelector('.page-title')
+    let height = 0
+    if (titleDom) {
+      height += titleDom.getBoundingClientRect().height
+    }
+
+    // search
+    const searchDom = document.querySelector('.page-search')
+    if (searchDom) {
+      height += searchDom.getBoundingClientRect().height
+    }
+
+    // pagination
+    const paginationDom = document.querySelector('.page-pagination')
+    if (paginationDom) {
+      height += paginationDom.getBoundingClientRect().height
+    }
+
+    // table header
+    const tableHeaderDom = document.querySelector('.ant-table-header')
+    if (tableHeaderDom) {
+      height += tableHeaderDom.getBoundingClientRect().height
+    } else {
+      height += 55 // 默认 55
+    }
+
+    let h = totalHeight - height
+    if (h <= 0) {
+      h = 0
+    }
+
+    return h
   }
 }

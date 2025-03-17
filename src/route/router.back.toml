@@ -1,6 +1,24 @@
 # 后端路由, 需要按模块分
-
 [HOME]
-GET_MENU_LIST = '/'
-GET_DATA = '/repos/rustwasm/wasm-bindgen/branches/main'
+UPDATE_URL = '/admin/updatePassword'
+
+[LOGIN]
+GET_VERIFICATION_URL = '/admin/validateImg'
+LOGIN_URL = '/admin/login'
+LOGOUT_URL = '/admin/logout'
+
+[DASHBOARD]
+DETAIL_URL = '/admin/dashboard/query'
+
+[BASIC_DATA]
+[BASIC_DATA.REGISTER]
+LIST_URL = '/admin/register/query'
+
+[PERMISSION]
+[PERMISSION.USER]
+LIST_URL = '/admin/user/query'
+
+[PERMISSION.ROLE]
+LIST_URL = '/admin/role/query'
+
 

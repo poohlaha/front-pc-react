@@ -3,15 +3,14 @@
  * @date 2023-3-14
  * @author poohlaha
  */
-@charset "utf-8";
 
 /* rest css */
 *,
 ::before,
 ::after {
   /* 选择所有标签 */
-  margin: 0;
-  padding: 0;
+  // margin: 0;
+  // padding: 0;
 
   /* 清除移动端默认点击高亮效果 */
   -webkit-tap-highlight-color: transparent;
@@ -92,6 +91,7 @@ html {
   // font-size: 625%;
   height: 100%;
   width: 100%;
+  overflow: hidden;
 }
 
 body {
@@ -126,7 +126,6 @@ body {
 }
 
 /* 2. flex布局 */
-.flex,
 .flex-center,
 .flex-align-start,
 .flex-align-center,
@@ -361,7 +360,6 @@ body {
 /* 遮罩层 */
 .mask {
   position: fixed;
-  z-index: 999;
   top: 0;
   left: 0;
   right: 0;
@@ -384,62 +382,9 @@ body {
   font-weight: 700;
 }
 
-.svg-icon {
-  width: 24px;
-  height: 24px;
-}
-
 .disabled {
   cursor: not-allowed;
   opacity: 0.6;
-}
-
-.no-data {
-  .svg-icon {
-    width: 121px;
-    height: 99px;
-  }
-
-  p {
-    margin-top: 10px;
-    font-size: 14px;
-  }
-}
-
-.page-padding {
-  padding: 24px;
-}
-
-.page-padding-top {
-  padding-top: 24px;
-}
-
-.page-padding-bottom {
-  padding-bottom: 24px;
-}
-
-.page-padding-left {
-  padding-left: 24px;
-}
-
-.page-padding-right {
-  padding-right: 24px;
-}
-
-.page-margin-top {
-  margin-top: 20px;
-}
-
-.page-margin-bottom {
-  margin-bottom: 20px;
-}
-
-.page-margin-left {
-  margin-left: 20px;
-}
-
-.page-margin-right {
-  margin-right: 20px;
 }
 
 .cursor-pointer {
@@ -452,4 +397,44 @@ body {
 
 .page-white {
   background: #ffffff !important;
+}
+
+.user-no-select {
+  user-select: none;
+}
+
+.pointer-no-events {
+  pointer-events: none;
+}
+
+.border-radius-full {
+  border-radius: 100%;
+}
+
+.whitespace-pre-wrap {
+  white-space: pre-wrap;
+}
+
+.z-1 {
+  z-index: 1;
+}
+
+.z-2 {
+  z-index: 2;
+}
+
+.z-30 {
+  z-index: 30;
+}
+
+.z-99 {
+  z-index: 99;
+}
+
+.z-88 {
+  z-index: 88;
+}
+
+.z-9999 {
+  z-index: 9999;
 }

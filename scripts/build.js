@@ -78,8 +78,12 @@ class ProjectBuilder {
         to: 'src/communal/hooks'
       },
       {
-        from: 'src/common/communal/provider',
-        to: 'src/communal/provider'
+        from: 'src/common/communal/provider/language.tsx',
+        to: 'src/communal/provider/language.tsx'
+      },
+      {
+        from: 'src/common/communal/provider/theme.tsx',
+        to: 'src/communal/provider/theme.tsx'
       },
       {
         from: 'src/common/communal/router',
@@ -111,7 +115,7 @@ class ProjectBuilder {
 
     WebpackDllCompiler(this._script, {
       entry: {
-        vendor: ['react', 'react-dom', 'react-router-dom', 'mobx', 'mobx-react-lite'],
+        vendor: ['react', 'react-dom', 'react-router-dom', 'react-router', 'mobx', 'mobx-react-lite'],
         other: ['crypto-js']
         // antd: ['antd']
       },
@@ -155,6 +159,7 @@ class ProjectBuilder {
           generateReport: false,
           useTerserWebpackPlugin: true,
           providePlugin: {},
+          useCssLoader: false,
           compress: {
             enable: true,
             deleteOutput: true,

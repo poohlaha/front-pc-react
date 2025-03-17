@@ -1,10 +1,29 @@
 # 前端路由, 需要按模块分
 [SYSTEM]
-HOME_URL = '/home'
+HOME_URL = ''
+LOGIN_URL = '/login'
 NOT_FOUND_URL = '/404'
 
-[MENU1]
-URL = '/menu1'
+# basic
+[BASIC_DATA]
+PREFIX_URL = '/basic'
+NAME = '基础数据维护'
 
-[MENU2]
-URL = '/menu2'
+[BASIC_DATA.REGISTER]
+URL = '/register'
+NAME = '注册用户'
+
+# permission
+[PERMISSION]
+PREFIX_URL = '/permission'
+NAME = '权限管理'
+
+# 用户管理
+[PERMISSION.USER]
+URL = '/user'
+NAME = '用户管理'
+
+# 角色管理
+[PERMISSION.ROLE]
+URL = '/role'
+NAME = '角色管理'

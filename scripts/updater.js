@@ -104,7 +104,7 @@ class Updater {
 
     let updateFiles = []
     // 合并文件，去除 ignore 文件
-    this.destFiles.forEach((dest = '') => {
+    this.destFiles.map((dest = '') => {
       let _dest = dest.trim()
       if (!this.ignoreFiles.includes(_dest)) {
         updateFiles.push(_dest)

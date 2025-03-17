@@ -12,33 +12,33 @@ export const routes: RouteInterface[] = [
   {
     path: '/',
     exact: true,
-    component: lazy(() => import(/* webpackChunkName:'lazy' */ '@pages/home/index')),
+    component: lazy(() => import(/* webpackChunkName:'home' */ '@pages/main/index')),
     name: 'home',
     auth: false,
     title: '首页'
   },
   {
-    path: RouterUrls.SYSTEM.LOGIN_URL,
-    component: lazy(() => import(/* webpackChunkName:'lazy' */ '@pages/login/index')),
-    exact: true,
-    name: 'login',
-    title: '登录',
-    auth: false
-  },
-  {
     path: `${RouterUrls.SYSTEM.HOME_URL}/*`,
-    component: lazy(() => import(/* webpackChunkName:'lazy' */ '@pages/home/index')),
+    component: lazy(() => import(/* webpackChunkName:'home' */ '@pages/main/index')),
     exact: true,
     name: 'home',
     title: '首页',
     auth: false
   },
   {
+    path: RouterUrls.SYSTEM.LOGIN_URL,
+    component: lazy(() => import(/* webpackChunkName:'login' */ '@pages/login/index')),
+    exact: true,
+    name: 'login',
+    title: '登录',
+    auth: false
+  },
+  {
     path: RouterUrls.SYSTEM.NOT_FOUND_URL,
     component: lazy(() => import(/* webpackChunkName:'notfound' */ '@route/not-found/index')),
     exact: true,
-    name: 'forward',
-    title: '页面发转',
+    name: 'notFound',
+    title: '页面不存在',
     auth: false
   }
 ]

@@ -4,15 +4,6 @@
  * @author poohlaha
  */
 .theme(
-  @font,
-  @font_small,
-  @font_smaller,
-  @font_large,
-  @font_larger,
-  @font_largest,
-  @font_max_larger,
-  @font_maximum,
-
   // 主题
   @theme,
   @theme_to,
@@ -26,6 +17,7 @@
   // 常用颜色
   @disabled,
   @color,
+  @color_sub,
   @color_shadow,
   @color_gray,
   @color_gray_light,
@@ -45,6 +37,9 @@
   @background_card,
   @background_answer,
   @background_gay,
+  @background_theme,
+  @background_login,
+  @background_table_head,
 
   // 线条
   @divider,
@@ -58,6 +53,8 @@
   @status
 ) {
   @import '../common/loading.less';
-  @import './antd.less';
+  @import '../common/common.less';
+  @import '../common/antd.less';
   @import '../pages/home.less';
+  @import '../pages/login.less';
 }

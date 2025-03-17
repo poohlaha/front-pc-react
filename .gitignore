@@ -37,7 +37,6 @@ pnpm-lock.yaml
 .eslintrc.js
 .gitmessage
 .prettierrc.js
-/postcss.config.js
 /babel.config.js
 /tsconfig.json
 *.css.map
@@ -55,4 +54,3 @@ src/@types/global.d.ts
 .update
 .husky
 
-eslint.config.js

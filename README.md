@@ -68,6 +68,7 @@
 - 启动
 
   ```shell
+  npm run copy # 如果使用 tailwindcss 需要在 copy 完成后还原 postcss.config.js 文件
   npm run start
   ```
 
