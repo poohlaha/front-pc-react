@@ -457,7 +457,7 @@ export default class BaseStore {
   }
 
   /**
-   * 获取当前时间
+   * 获取当前时间, 返回 YYYY/M/DD HH:mm 格式
    */
   @action
   getCurrentDate() {
