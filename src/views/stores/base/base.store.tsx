@@ -457,46 +457,10 @@ export default class BaseStore {
   }
 
   /**
-   * 页面大小重置
+   * 获取当前时间
    */
   @action
-  resize = (pageName: string = '') => {
-    const dom = document.querySelector(`.${pageName || ''}`)
-    if (!dom) return 0
-
-    let totalHeight = dom.getBoundingClientRect().height
-    // title
-    const titleDom = document.querySelector('.page-title')
-    let height = 0
-    if (titleDom) {
-      height += titleDom.getBoundingClientRect().height
-    }
-
-    // search
-    const searchDom = document.querySelector('.page-search')
-    if (searchDom) {
-      height += searchDom.getBoundingClientRect().height
-    }
-
-    // pagination
-    const paginationDom = document.querySelector('.page-pagination')
-    if (paginationDom) {
-      height += paginationDom.getBoundingClientRect().height
-    }
-
-    // table header
-    const tableHeaderDom = document.querySelector('.ant-table-header')
-    if (tableHeaderDom) {
-      height += tableHeaderDom.getBoundingClientRect().height
-    } else {
-      height += 55 // 默认 55
-    }
-
-    let h = totalHeight - height
-    if (h <= 0) {
-      h = 0
-    }
-
-    return h
+  getCurrentDate() {
+    return new Date().toLocaleString('zh-CN', { timeZone: 'Asia/Shanghai' })
   }
 }
