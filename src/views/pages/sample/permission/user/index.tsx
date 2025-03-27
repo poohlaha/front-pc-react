@@ -10,7 +10,7 @@ import { useStore } from '@views/stores'
 import RouterUrls from '@route/router.url.toml'
 import { Pagination, Table, Tag } from 'antd'
 import useMount from '@hooks/useMount'
-import Utils from '@utils/utils'
+import Utils from '@views/utils/utils'
 
 const User = (): ReactElement => {
   const { userStore } = useStore()

@@ -5,8 +5,8 @@
  */
 import { action, observable } from 'mobx'
 import { SYSTEM } from '@config/index'
-import { COMMON, PAGE_JUMP, TOAST, USER } from '@utils/base'
-import Utils from '@utils/utils'
+import { COMMON, DB, PAGE_JUMP, TOAST, USER } from '@views/utils/base'
+import Utils from '@views/utils/utils'
 import SmCrypto from 'sm-crypto'
 import { HttpRequest } from '@bale-web/request'
 import WasmUtils from '@stores/base/wasm'
@@ -77,7 +77,7 @@ export default class BaseStore {
    */
   @action
   onJudgeUserExpired() {
-    let userInfo = USER.getUserInfo() || {}
+    let userInfo: { [K: string]: any } = USER.getUserInfo() || {}
     return Utils.isBlank(userInfo.mobile || '')
   }
 
@@ -85,8 +85,8 @@ export default class BaseStore {
    * 从 LocalStorage 中获取 Boolean 值
    * @param name
    */
-  onGetLocalBooleanValue(name: string = ''): boolean {
-    const str = Utils.getLocal(name) || ''
+  async onGetLocalBooleanValue(name: string = '') {
+    const str = (await DB.getConstantByDB(name)) || ''
     return str === 'true'
   }
 
@@ -178,6 +178,11 @@ export default class BaseStore {
       timeout: 10,
       method: options.method ?? 'POST',
       success: (data: any = {}) => {
+        // 不需要判断返回码
+        if (options.needNoCode) {
+          return options.success?.(data.body || null)
+        }
+
         if (type !== '0') {
           return options.success?.(data.body || null)
         }
@@ -235,7 +240,6 @@ export default class BaseStore {
     }
 
     // 判官是否支持 wasm
-    /*
     if (type !== '6') {
       if (this.isSupportWasm()) {
         console.log('params', params)
@@ -244,7 +248,6 @@ export default class BaseStore {
         return this.wasmUtils.onHandleResult(params, response)
       }
     }
-     */
 
     return await HttpRequest.send(params)
   }
@@ -454,6 +457,154 @@ export default class BaseStore {
     }
 
     await HttpRequest.send(params as IHttpRequestProps)
+  }
+
+  /**
+   * 判断ios版本
+   */
+  @action
+  getIOSVersion() {
+    const ua = window.navigator.userAgent || ''
+    const match = ua.match(/iPhone OS (\d+)_(\d+)_?(\d+)?/)
+    if (match) {
+      return {
+        major: parseInt(match[1], 10),
+        minor: parseInt(match[2], 10),
+        patch: match[3] ? parseInt(match[3], 10) : 0
+      }
+    }
+    return {
+      major: 0,
+      minor: 0,
+      patch: 0
+    }
+  }
+
+  /**
+   * 判断 Android 版本
+   */
+  @action
+  getAndroidVersion() {
+    const ua = window.navigator.userAgent || ''
+    const match = ua.match(/Android (\d+)\.(\d+)\.?(\d+)?/)
+    if (match) {
+      return {
+        major: parseInt(match[1], 10),
+        minor: parseInt(match[2], 10),
+        patch: match[3] ? parseInt(match[3], 10) : 0
+      }
+    }
+    return {
+      major: 0,
+      minor: 0,
+      patch: 0
+    }
+  }
+
+  /**
+   * 判断 safari 版本
+   */
+  @action
+  getSafariVersion() {
+    const ua = window.navigator.userAgent || ''
+    const match = ua.match(/Version\/(\d+)\.(\d+)\.?(\d+)? Safari/)
+    if (match) {
+      return {
+        major: parseInt(match[1], 10),
+        minor: parseInt(match[2], 10),
+        patch: match[3] ? parseInt(match[3], 10) : 0
+      }
+    }
+    return {
+      major: 0,
+      minor: 0,
+      patch: 0
+    }
+  }
+
+  /**
+   * 在 ios 13 以下不渲染表格等数据
+   * 在 android 9 以下不渲染表格等数据
+   * 在 safari 14 以下不渲染表格等数据
+   */
+  @action
+  onUpperPhoneVersion() {
+    const iosVersion = this.getIOSVersion()
+    const androidVersion = this.getAndroidVersion()
+    const safariVersion = this.getSafariVersion()
+    console.log('ios version', iosVersion)
+    console.log('android version', androidVersion)
+    console.log('safari version', safariVersion)
+    if (iosVersion.major > 0 || androidVersion.major > 0 || safariVersion.major > 0) {
+      if (iosVersion.major > 0 && iosVersion.major < 13) {
+        return true
+      }
+
+      if (androidVersion.major > 0 && androidVersion.major < 9) {
+        return true
+      }
+
+      if (safariVersion.major > 0 && safariVersion.major < 14) {
+        return true
+      }
+    }
+
+    return false
+  }
+
+  /**
+   * 判断是不是手机端
+   */
+  onJudgeIsPhone() {
+    if (window.innerWidth <= 768) {
+      return true
+    }
+
+    return navigator.userAgent.indexOf('iPhone') > -1 || navigator.userAgent.indexOf('Android') > -1
+  }
+
+  /**
+   * 页面大小重置
+   */
+  @action
+  resize = (pageName: string = '') => {
+    const dom = document.querySelector(`.${pageName || ''}`)
+    if (!dom) return 0
+
+    let totalHeight = dom.getBoundingClientRect().height
+    // title
+    const titleDom = document.querySelector('.page-title')
+    let height = 0
+    if (titleDom) {
+      height += titleDom.getBoundingClientRect().height
+    }
+
+    // search
+    const searchDom = document.querySelector('.page-search')
+    if (searchDom) {
+      height += searchDom.getBoundingClientRect().height
+    }
+
+    // pagination
+    const paginationDom = document.querySelector('.page-pagination')
+    if (paginationDom) {
+      height += paginationDom.getBoundingClientRect().height
+    }
+
+    // table header
+    const tableHeaderDom = document.querySelector('.ant-table-header')
+    if (tableHeaderDom) {
+      height += tableHeaderDom.getBoundingClientRect().height
+    } else {
+      height += 55 // 默认 55
+    }
+
+    let h = totalHeight - height
+    if (h <= 0) {
+      h = 0
+    }
+
+    return h
   }
 
   /**

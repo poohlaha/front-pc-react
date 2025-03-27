@@ -3,7 +3,7 @@
  */
 import React from 'react'
 import RouterUrls from '@route/router.url.toml'
-import { PAGE_JUMP } from '@utils/base'
+import { PAGE_JUMP } from '@views/utils/base'
 
 const PageNotFound = () => {
   return (

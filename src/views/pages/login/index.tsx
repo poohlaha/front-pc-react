@@ -13,7 +13,7 @@ import Loading from '@views/components/loading/loading'
 import { Input } from 'antd'
 import { UserOutlined, EyeTwoTone, EyeInvisibleOutlined, SafetyOutlined, LockOutlined } from '@ant-design/icons'
 import LoginLeftPng from '@assets/images/login/loginLeft.png'
-import Utils from '@utils/utils'
+import Utils from '@views/utils/utils'
 import RouterUrls from '@route/router.url.toml'
 import { useNavigate } from 'react-router'
 

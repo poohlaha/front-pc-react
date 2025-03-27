@@ -6,8 +6,8 @@
 import { action, observable } from 'mobx'
 import BackUrls from '@route/router.back.toml'
 import BasicStore from '@stores/basic/basic.store'
-import Utils from '@utils/utils'
-import { TOAST } from '@utils/base'
+import Utils from '@views/utils/utils'
+import { TOAST } from '@views/utils/base'
 import dayjs from 'dayjs'
 
 class RegisterStore extends BasicStore {

@@ -3,7 +3,7 @@
  * @date 2023-08-28
  * @author poohlaha
  */
-import Utils from '@utils/utils'
+import Utils from '@views/utils/utils'
 
 export default class WasmUtils {
   /**

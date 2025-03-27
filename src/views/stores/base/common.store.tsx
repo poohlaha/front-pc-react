@@ -4,7 +4,7 @@
  * @author poohlaha
  */
 import { CONSTANT, SYSTEM } from '@config/index'
-import Utils from '@utils/utils'
+import Utils from '@views/utils/utils'
 import { action, observable } from 'mobx'
 
 class CommonStore {

@@ -6,7 +6,7 @@
 import { action, observable } from 'mobx'
 import BackUrls from '@route/router.back.toml'
 import BaseStore from '@stores/base/base.store'
-import Utils from '@utils/utils'
+import Utils from '@views/utils/utils'
 
 class DashboardStore extends BaseStore {
   // 列表

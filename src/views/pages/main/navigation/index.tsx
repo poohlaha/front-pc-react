@@ -7,7 +7,7 @@ import React, { ReactElement } from 'react'
 import { observer } from 'mobx-react-lite'
 import LogoPng from '@assets/images/logo.png'
 import { Dropdown, MenuProps } from 'antd'
-import Utils from '@utils/utils'
+import Utils from '@views/utils/utils'
 
 interface INavigationProps {
   onUpdatePwd: () => void

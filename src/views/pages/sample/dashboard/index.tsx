@@ -7,7 +7,7 @@ import React, { ReactElement, useEffect } from 'react'
 import { observer } from 'mobx-react-lite'
 import { useStore } from '@views/stores'
 import dayjs from 'dayjs'
-import { USER } from '@utils/base'
+import { USER } from '@views/utils/base'
 import useMount from '@hooks/useMount'
 import Register from '@pages/sample/dashboard/register'
 

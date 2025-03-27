@@ -4,7 +4,7 @@
  * @author poohlaha
  */
 import React, { ReactElement } from 'react'
-import Utils from '@utils/utils'
+import Utils from '@views/utils/utils'
 
 interface ISampleProps {
   show: boolean

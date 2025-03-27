@@ -6,8 +6,8 @@
 import { action, observable } from 'mobx'
 import BaseStore from '@stores/base/base.store'
 import BackUrls from '@route/router.back.toml'
-import { TOAST, USER } from '@utils/base'
-import Utils from '@utils/utils'
+import { TOAST, USER } from '@views/utils/base'
+import Utils from '@views/utils/utils'
 
 class LoginStore extends BaseStore {
   // 图形验证码

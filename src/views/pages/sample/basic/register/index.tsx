@@ -11,7 +11,7 @@ import RouterUrls from '@route/router.url.toml'
 import { Pagination, Table, DatePicker, Button, Input } from 'antd'
 import useMount from '@hooks/useMount'
 import dayjs from 'dayjs'
-import Utils from '@utils/utils'
+import Utils from '@views/utils/utils'
 
 const Register = (): ReactElement => {
   const { registerStore } = useStore()

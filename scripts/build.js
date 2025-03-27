@@ -92,10 +92,6 @@ class ProjectBuilder {
       {
         from: 'src/common/communal/index.tsx',
         to: 'src/communal/index.tsx'
-      },
-      {
-        from: `src/${this._copyDestDir}/utils`,
-        to: 'src/communal/utils'
       }
     ]
 
@@ -148,11 +144,11 @@ class ProjectBuilder {
             test: /\.css$/i,
             exclude: /node_modules/,
             use: [
-              { loader: "style-loader" },
-              { loader: "css-loader" },
-              { loader: "postcss-loader" }
+              { loader: 'style-loader' },
+              { loader: 'css-loader' },
+              { loader: 'postcss-loader' }
             ]
-          },
+          }
         ],
         settings: {
           jsLoaderInclude: [

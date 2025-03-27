@@ -7,15 +7,14 @@ import React, { ReactElement, useState } from 'react'
 import { observer } from 'mobx-react-lite'
 import { useStore } from '@views/stores'
 import useMount from '@hooks/useMount'
-import { USER } from '@utils/base'
+import { USER } from '@views/utils/base'
 import { useNavigate } from 'react-router'
 import Page from '@views/modules/page'
 import RouterUrls from '@route/router.url.toml'
-import Navigation from '@pages/main/navigation'
 import Left from '@pages/main/left'
 import Right from '@pages/main/right'
 import { Input, Modal } from 'antd'
-import Utils from '@utils/utils'
+import Utils from '@views/utils/utils'
 
 const Home = (): ReactElement => {
   const { loginStore, homeStore } = useStore()
@@ -34,7 +33,7 @@ const Home = (): ReactElement => {
         contentClassName="flex-direction-column"
         loading={homeStore.loading}
       >
-        {/* 导航条 */}
+        {/* 导航条
         <Navigation
           userName={homeStore.userInfo.userName || ''}
           onLogout={async () => {
@@ -52,10 +51,27 @@ const Home = (): ReactElement => {
           }}
           onHome={() => navigate('/')}
         />
+        */}
 
         {/* main */}
         <main className="flex-1 w100 overflow-hidden flex">
-          <Left />
+          <Left
+            userName={homeStore.userInfo.userName || ''}
+            onLogout={async () => {
+              await loginStore.onLogout(async () => {
+                await loginStore.getVerificationCode()
+                homeStore.onReset()
+                setTimeout(() => {
+                  navigate(RouterUrls.SYSTEM.LOGIN_URL)
+                }, 300)
+              })
+            }}
+            onUpdatePwd={() => {
+              homeStore.updatePwdForm = Utils.deepCopy(homeStore.UPDATE_PWD_FORM)
+              setOpenUpdate(true)
+            }}
+            onHome={() => navigate('/')}
+          />
           <Right />
         </main>
 

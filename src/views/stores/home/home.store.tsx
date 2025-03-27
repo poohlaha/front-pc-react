@@ -9,8 +9,8 @@ import RouterUrls from '@route/router.url.toml'
 import React, { lazy } from 'react'
 import { AppstoreOutlined, SettingOutlined, DotChartOutlined } from '@ant-design/icons'
 import BackUrls from '@route/router.back.toml'
-import { ADDRESS, TOAST } from '@utils/base'
-import Utils from '@utils/utils'
+import { ADDRESS, TOAST } from '@views/utils/base'
+import Utils from '@views/utils/utils'
 
 class HomeStore extends BaseStore {
   // 用户信息
