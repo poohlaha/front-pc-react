@@ -233,14 +233,20 @@ const USER = {
    * 获取用户信息
    */
   getUserInfo: () => {
-    let userInfo = Utils.getLocal(SYSTEM.USER_TOKEN_NAME)
-    if (!userInfo) return null
+    const mobile = Utils.getLocal(SYSTEM.USER_PHONE_NAME) || ''
+    if (Utils.isBlank(mobile || '')) {
+      return {}
+    }
+
+    const key = `${SYSTEM.USER_TOKEN_NAME}_${Utils.encrypt(mobile)}`
+    let userInfo = Utils.getLocal(key)
+    if (!userInfo) return {}
 
     if (typeof userInfo === 'string') {
       try {
-        userInfo = JSON.parse(userInfo)
+        userInfo = JSON.parse(userInfo) || {}
       } catch (_) {
-        userInfo = null
+        userInfo = {}
       }
     }
 
@@ -248,18 +254,29 @@ const USER = {
   },
 
   /**
-   * 保存用户信息
+   * 保存用户信息, 用 LocalStorage 以兼容历史
    */
   setUserInfo: async (userInfo: any = {}) => {
-    let token: string = userInfo[SYSTEM.TOKEN_NAME] // 从用户信息中获取 TOKEN
+    const token: string = userInfo[SYSTEM.TOKEN_NAME] // 从用户信息中获取 TOKEN
     delete userInfo[SYSTEM.TOKEN_NAME]
 
+    const mobile = userInfo.mobile || ''
+
+    // 设置手机号码
+    Utils.removeLocal(SYSTEM.USER_PHONE_NAME)
+    Utils.setLocal(SYSTEM.USER_PHONE_NAME, mobile)
+    await DB.deleteConstantByDB(SYSTEM.USER_PHONE_NAME)
+    await DB.insertConstantByDB(SYSTEM.USER_PHONE_NAME, mobile, false)
+
     // 设置用户信息
+    Utils.removeLocal(`${SYSTEM.USER_TOKEN_NAME}_${Utils.encrypt(mobile)}`)
+    Utils.setLocal(`${SYSTEM.USER_TOKEN_NAME}_${Utils.encrypt(mobile)}`, JSON.stringify(userInfo))
     await DB.deleteConstantByDB(SYSTEM.USER_TOKEN_NAME)
-    Utils.setLocal(SYSTEM.USER_TOKEN_NAME, JSON.stringify(userInfo))
     await DB.insertConstantByDB(SYSTEM.USER_TOKEN_NAME, JSON.stringify(userInfo))
 
     // 保存 TOKEN
+    Utils.removeLocal(SYSTEM.LOCAL_TOKEN_NAME)
+    Utils.setLocal(SYSTEM.LOCAL_TOKEN_NAME, token)
     await DB.deleteConstantByDB(SYSTEM.LOCAL_TOKEN_NAME)
     await DB.insertConstantByDB(SYSTEM.LOCAL_TOKEN_NAME, token, false)
   },
@@ -268,13 +285,22 @@ const USER = {
    * 清除用户信息
    */
   clearUserInfo: async () => {
-    // 保存用户信息
+    // 清除 Token
+    Utils.removeLocal(SYSTEM.LOCAL_TOKEN_NAME)
+    await DB.deleteConstantByDB(SYSTEM.LOCAL_TOKEN_NAME)
+
+    // 清除手机号码
+    Utils.removeLocal(SYSTEM.USER_PHONE_NAME)
+    await DB.deleteConstantByDB(SYSTEM.USER_PHONE_NAME)
+
+    // 清除用户信息
     Utils.removeLocal(SYSTEM.USER_TOKEN_NAME)
     await DB.deleteConstantByDB(SYSTEM.USER_TOKEN_NAME)
 
-    // 保存Token
-    Utils.removeLocal(SYSTEM.LOCAL_TOKEN_NAME)
-    await DB.deleteConstantByDB(SYSTEM.LOCAL_TOKEN_NAME)
+    // 清除 DB
+    await DB.onClearDB()
+    await DB.onClearVariableDB()
+
     Utils.clearSessionStorage()
     Utils.clearLocalStorage()
   },
