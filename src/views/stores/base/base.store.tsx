@@ -8,10 +8,9 @@ import { SYSTEM } from '@config/index'
 import { COMMON, DB, PAGE_JUMP, TOAST, USER } from '@views/utils/base'
 import Utils from '@views/utils/utils'
 import SmCrypto from 'sm-crypto'
-import { HttpRequest } from '@bale-web/request'
+import { HttpRequest, type IHttpRequestProps } from '@bale-web/request'
 import WasmUtils from '@stores/base/wasm'
 import RouterUrls from '@route/router.url.toml'
-import { IHttpRequestProps } from '@bale-web/request/lib/client'
 
 export default class BaseStore {
   @observable loading: boolean = false

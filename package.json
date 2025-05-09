@@ -43,7 +43,7 @@
     "react-intl": "^7.0.4",
     "sm-crypto": "^0.3.12",
     "typescript": "^5.8.2",
-    "@bale-web/request": "^0.1.6",
+    "@bale-web/request": "^0.2.0",
     "@bale-wasm/http": "^0.1.1",
     "@types/react": "^19.0.10",
     "@types/react-dom": "^19.0.4",
