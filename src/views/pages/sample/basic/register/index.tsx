@@ -74,14 +74,12 @@ const Register = (): ReactElement => {
         className="register-page wh100 overflow-hidden"
         loading={registerStore.loading}
         contentClassName="flex-direction-column"
+        title={{
+          label: RouterUrls.BASIC_DATA.REGISTER.NAME || ''
+        }}
       >
-        {/* title */}
-        <div className="page-title flex-align-center pt-5 pl-5 pr-5">
-          <p className="flex-1 font-bold text-xl">{RouterUrls.BASIC_DATA.REGISTER.NAME || ''}</p>
-        </div>
-
         {/* content */}
-        <div className="page-content text-sm flex-1 flex-direction-column">
+        <div className="page-content flex-1 flex-direction-column">
           {/* search */}
           <div className="page-search w100 p-5 flex-align-center">
             {/* 手机号码 */}

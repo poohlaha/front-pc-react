@@ -12,10 +12,10 @@ import { useStore } from '@views/stores'
 import Dashboard from '@pages/sample/dashboard'
 
 const Right = (): ReactElement => {
-  const { homeStore } = useStore()
+  const { mainStore } = useStore()
 
   const getRoutes = () => {
-    const menuList = homeStore.MENU_LIST || []
+    const menuList = mainStore.MENU_LIST || []
     if (menuList.length === 0) return []
 
     const generateRoutes = (menuList: any[], parentPath: string = '') => {

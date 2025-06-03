@@ -138,7 +138,6 @@ class ProjectBuilder {
       script: this._script,
       opts: {
         target: ['web', 'es2020'],
-        mode: 'production',
         entry: path.resolve(this._appRootDir, 'src/communal/index.tsx'),
         loaders: [
           {

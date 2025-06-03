@@ -17,36 +17,39 @@ import { Input, Modal } from 'antd'
 import Utils from '@views/utils/utils'
 
 const Home = (): ReactElement => {
-  const { loginStore, homeStore } = useStore()
+  const { loginStore, mainStore } = useStore()
   const navigate = useNavigate()
   const [openUpdate, setOpenUpdate] = useState(false)
 
   useMount(() => {
-    homeStore.userInfo = USER.getUserInfo() || {}
-    homeStore.getSelectedKeysByUrl()
+    mainStore.userInfo = USER.getUserInfo() || {}
+    mainStore.getSelectedKeysByUrl()
   })
 
   const render = () => {
     return (
       <Page
-        className="home-page wh100 overflow-hidden bg-white"
-        contentClassName="flex-direction-column"
-        loading={homeStore.loading}
+        className="main-page wh100 overflow-hidden bg-white"
+        contentClassName="flex-direction-column !p-0"
+        loading={mainStore.loading}
+        title={{
+          show: false
+        }}
       >
         {/* 导航条
         <Navigation
-          userName={homeStore.userInfo.userName || ''}
+          userName={mainStore.userInfo.userName || ''}
           onLogout={async () => {
             await loginStore.onLogout(async () => {
               await loginStore.getVerificationCode()
-              homeStore.onReset()
+              mainStore.onReset()
               setTimeout(() => {
                 navigate(RouterUrls.SYSTEM.LOGIN_URL)
               }, 300)
             })
           }}
           onUpdatePwd={() => {
-            homeStore.updatePwdForm = Utils.deepCopy(homeStore.UPDATE_PWD_FORM)
+            mainStore.updatePwdForm = Utils.deepCopy(mainStore.UPDATE_PWD_FORM)
             setOpenUpdate(true)
           }}
           onHome={() => navigate('/')}
@@ -56,18 +59,18 @@ const Home = (): ReactElement => {
         {/* main */}
         <main className="flex-1 w100 overflow-hidden flex">
           <Left
-            userName={homeStore.userInfo.userName || ''}
+            userName={mainStore.userInfo.userName || ''}
             onLogout={async () => {
               await loginStore.onLogout(async () => {
                 await loginStore.getVerificationCode()
-                homeStore.onReset()
+                mainStore.onReset()
                 setTimeout(() => {
                   navigate(RouterUrls.SYSTEM.LOGIN_URL)
                 }, 300)
               })
             }}
             onUpdatePwd={() => {
-              homeStore.updatePwdForm = Utils.deepCopy(homeStore.UPDATE_PWD_FORM)
+              mainStore.updatePwdForm = Utils.deepCopy(mainStore.UPDATE_PWD_FORM)
               setOpenUpdate(true)
             }}
             onHome={() => navigate('/')}
@@ -82,14 +85,14 @@ const Home = (): ReactElement => {
           rootClassName="m-ant-modal"
           maskClosable={false}
           onOk={async () => {
-            await homeStore.onUpdatePwd(() => {
+            await mainStore.onUpdatePwd(() => {
               setOpenUpdate(false)
-              homeStore.updatePwdForm = Utils.deepCopy(homeStore.UPDATE_PWD_FORM)
+              mainStore.updatePwdForm = Utils.deepCopy(mainStore.UPDATE_PWD_FORM)
             })
           }}
           onCancel={() => {
             setOpenUpdate(false)
-            homeStore.updatePwdForm = Utils.deepCopy(homeStore.UPDATE_PWD_FORM)
+            mainStore.updatePwdForm = Utils.deepCopy(mainStore.UPDATE_PWD_FORM)
           }}
         >
           <div className="m-ant-modal-form">
@@ -100,11 +103,11 @@ const Home = (): ReactElement => {
               </p>
               <Input.Password
                 placeholder="请输入"
-                value={homeStore.updatePwdForm.oldPassword || ''}
+                value={mainStore.updatePwdForm.oldPassword || ''}
                 allowClear
                 className="m-ant-input"
                 onChange={e => {
-                  homeStore.updatePwdForm.oldPassword = e.target.value || ''
+                  mainStore.updatePwdForm.oldPassword = e.target.value || ''
                 }}
               />
             </div>
@@ -116,11 +119,11 @@ const Home = (): ReactElement => {
               </p>
               <Input.Password
                 placeholder="请输入"
-                value={homeStore.updatePwdForm.password || ''}
+                value={mainStore.updatePwdForm.password || ''}
                 allowClear
                 className="m-ant-input"
                 onChange={e => {
-                  homeStore.updatePwdForm.password = e.target.value || ''
+                  mainStore.updatePwdForm.password = e.target.value || ''
                 }}
               />
             </div>
@@ -132,11 +135,11 @@ const Home = (): ReactElement => {
               </p>
               <Input.Password
                 placeholder="请输入"
-                value={homeStore.updatePwdForm.againPassword || ''}
+                value={mainStore.updatePwdForm.againPassword || ''}
                 allowClear
                 className="m-ant-input"
                 onChange={e => {
-                  homeStore.updatePwdForm.againPassword = e.target.value || ''
+                  mainStore.updatePwdForm.againPassword = e.target.value || ''
                 }}
               />
             </div>

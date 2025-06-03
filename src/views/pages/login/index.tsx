@@ -62,24 +62,31 @@ const Login: React.FC = (): ReactElement => {
 
   const render = () => {
     return (
-      <Page className="login-page wh100 p-5 bg-white" contentClassName="flex-center" loading={loginStore.loading}>
-        <div className="page-content flex bg-white text-sm">
+      <Page
+        className="login-page wh100 p-5 background-gay"
+        contentClassName="flex-center"
+        loading={loginStore.loading}
+        title={{
+          show: false
+        }}
+      >
+        <div className="page-content flex background rounded-md shadow">
           {/* left background */}
-          <div className="login-left">
-            <img src={LoginLeftPng} className="wh100 object-cover" alt="" />
+          <div className="login-left w-96">
+            <img src={LoginLeftPng} className="wh100 object-cover rounded-l-md" alt="" />
           </div>
 
-          <div className="login-right flex-align-center">
+          <div className="login-right flex-align-center w-[600px] pt-8 pb-8 pl-24 pr-24">
             <div className="right-box wh100 flex-direction-column flex-center">
-              <div className="login-title flex text-4xl mb-12">
-                <p className="">后台管理系统</p>
+              <div className="login-title flex mb-12">
+                <p className="text-4xl">后台管理系统</p>
               </div>
 
               <div className="login-body">
                 <Input
                   allowClear
                   size="large"
-                  className="mb-6 m-ant-input-icon"
+                  className="mb-6 m-ant-input"
                   placeholder="请输入工号"
                   value={loginStore.form.loginName || ''}
                   prefix={<UserOutlined />}
@@ -88,11 +95,12 @@ const Login: React.FC = (): ReactElement => {
                     loginStore.form.loginName = e.target.value || ''
                   }}
                 />
+
                 <Input.Password
                   allowClear
                   size="large"
                   placeholder="请输入密码"
-                  className="mb-6 m-ant-input-icon"
+                  className="mb-6 m-ant-input"
                   value={loginStore.form.password || ''}
                   prefix={<LockOutlined />}
                   onKeyDown={async e => await onEnter(e)}
@@ -107,7 +115,7 @@ const Login: React.FC = (): ReactElement => {
                     allowClear
                     size="large"
                     placeholder="请输入验证码"
-                    className="flex-1 m-ant-input-icon"
+                    className="flex-1 m-ant-input"
                     value={loginStore.form.captchaCode || ''}
                     prefix={<SafetyOutlined />}
                     onKeyDown={async e => await onEnter(e)}
@@ -116,7 +124,9 @@ const Login: React.FC = (): ReactElement => {
                     }}
                   />
 
-                  <div className="pic cursor-pointer position-relative ml-6 h-10 w-24">{getVerificationImage()}</div>
+                  <div className="pic cursor-pointer position-relative ml-6 h-10 w-24 border rounded">
+                    {getVerificationImage()}
+                  </div>
                 </div>
 
                 <button

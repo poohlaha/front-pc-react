@@ -21,7 +21,7 @@ interface ILeftProps {
 }
 
 const Left = (props: ILeftProps): ReactElement => {
-  const { homeStore } = useStore()
+  const { mainStore } = useStore()
   const navigate = useNavigate()
 
   // 递归生成子菜单
@@ -59,9 +59,9 @@ const Left = (props: ILeftProps): ReactElement => {
   }
 
   const render = () => {
-    const list = homeStore.MENU_LIST || []
+    const list = mainStore.MENU_LIST || []
     return (
-      <div className="left w-64 min-w-64 border-right flex-direction-column">
+      <div className="left w-64 min-w-64 border-right flex-direction-column p-4">
         {/* LOGO */}
         <div className="navigation-left w100 p-4 flex-center">
           <img src={LogoPng} className="logo cursor-pointer w-10 h-8" alt="" onClick={props.onHome} />
@@ -73,8 +73,8 @@ const Left = (props: ILeftProps): ReactElement => {
             onClick={e => navigate(e.key)}
             items={generateMenuItems(list)}
             mode="inline"
-            selectedKeys={homeStore.selectedMenuKeys}
-            onSelect={({ selectedKeys }) => (homeStore.selectedMenuKeys = selectedKeys || [])}
+            selectedKeys={mainStore.selectedMenuKeys}
+            onSelect={({ selectedKeys }) => (mainStore.selectedMenuKeys = selectedKeys || [])}
             defaultOpenKeys={[RouterUrls.BASIC_DATA.PREFIX_URL, RouterUrls.PERMISSION.PREFIX_URL]}
           />
         </div>

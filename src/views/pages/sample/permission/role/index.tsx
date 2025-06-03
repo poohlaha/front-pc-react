@@ -72,14 +72,12 @@ const Role = (): ReactElement => {
         className="role-page wh100 overflow-hidden"
         loading={roleStore.loading}
         contentClassName="flex-direction-column"
+        title={{
+          label: RouterUrls.PERMISSION.USER.NAME || ''
+        }}
       >
-        {/* title */}
-        <div className="page-title flex-align-center pt-5 pl-5 pr-5">
-          <p className="flex-1 font-bold text-xl">{RouterUrls.PERMISSION.USER.NAME || ''}</p>
-        </div>
-
         {/* content */}
-        <div className="page-content text-sm flex-1 flex-direction-column pt-5">
+        <div className="page-content flex-1 flex-direction-column pt-5">
           {/* table */}
           <div className="page-wrapper w100 flex-1 flex-direction-column pl-5 pr-5">
             {/* table */}

@@ -3,14 +3,15 @@
  * @date 2023-3-14
  * @author poohlaha
  */
+@charset "utf-8";
 
 /* rest css */
 *,
 ::before,
 ::after {
   /* 选择所有标签 */
-  // margin: 0;
-  // padding: 0;
+  margin: 0;
+  padding: 0;
 
   /* 清除移动端默认点击高亮效果 */
   -webkit-tap-highlight-color: transparent;
@@ -24,36 +25,32 @@
   -webkit-text-size-adjust: none; // //禁用Webkit内核浏览器的文字大小调整功能
 }
 
-/* 滚动条 */
-/*定义滚动条高宽及背景 高宽分别对应横竖滚动条的尺寸*/
+// 全局滚动条
 ::-webkit-scrollbar {
-  /*滚动条整体样式*/
-  width: 6px; /*高宽分别对应横竖滚动条的尺寸*/
-  height: 6px;
+  width: 6px;
+  height: 0;
+  background-color: transparent;
 }
 
-/*定义滚动条轨道 内阴影+圆角*/
+/* 定义滚动条轨道 内部
+  内阴影+圆角 */
 ::-webkit-scrollbar-track {
-  /*滚动条里面轨道*/
-  // box-shadow   : inset 0 0 5px rgba(0, 0, 0, 0.2);
-  //  border-radius: 10px;
+  border-radius: 0.8rem;
+  background-color: transparent;
 }
 
-/*定义滑块 内阴影+圆角*/
+.dark ::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+/* 定义滑块 内阴影+圆角 */
 ::-webkit-scrollbar-thumb {
-  /*滚动条里面小方块*/
-  border-radius: 5px;
-  background-color: darkgrey; // #6b6f83
-  background-image: -webkit-linear-gradient(
-    45deg,
-    rgba(255, 255, 255, 0.2) 25%,
-    transparent 25%,
-    transparent 50%,
-    rgba(255, 255, 255, 0.2) 50%,
-    rgba(255, 255, 255, 0.2) 75%,
-    transparent 75%,
-    transparent
-  );
+  border-radius: 0.8rem;
+  background-color: rgb(216, 216, 216);
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background-color: rgba(85, 85, 85, 0.2);
 }
 
 a {
@@ -90,29 +87,43 @@ ol {
 html {
   // font-size: 625%;
   height: 100%;
-  width: 100%;
-  overflow: hidden;
 }
 
 body {
   width: 100%;
   height: 100%;
+  -webkit-font-smoothing: antialiased;
+  min-width: 900px;
+  overflow: hidden;
+}
+
+.PingFangSC-Regular {
   font-family:
     PingFangSC-Regular,
     PingFang SC,
-    '微软雅黑',
-    'Microsoft YaHei',
     sans-serif;
   -webkit-font-smoothing: antialiased;
-  color: #333333;
+}
+
+.PingFangSC {
+  font-family:
+    PingFang SC,
+    PingFangSC-Regular,
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+.sans-serif {
+  font-family:
+    sans-serif,
+    PingFangSC-Regular,
+    PingFang SC;
+  -webkit-font-smoothing: antialiased;
 }
 
 #root {
   width: 100%;
   height: 100%;
-  display: flex;
-  align-content: center;
-  justify-content: center;
   // overflow: hidden;
 }
 
@@ -126,6 +137,7 @@ body {
 }
 
 /* 2. flex布局 */
+.flex,
 .flex-center,
 .flex-align-start,
 .flex-align-center,
@@ -275,15 +287,6 @@ body {
   height: 100%;
 }
 
-.mwh100 {
-  min-width: 100%;
-  min-height: 100%;
-}
-
-.min-h100 {
-  min-width: 100%;
-}
-
 .min-h100 {
   min-height: 100%;
 }
@@ -319,7 +322,7 @@ body {
   overflow: hidden;
 }
 
-.overflow-auto {
+.overflow {
   overflow: auto;
 }
 
@@ -360,6 +363,7 @@ body {
 /* 遮罩层 */
 .mask {
   position: fixed;
+  z-index: 999;
   top: 0;
   left: 0;
   right: 0;
@@ -369,72 +373,75 @@ body {
   transition: all 0.2s ease-in;
 }
 
-/* 鼠标 */
+.page-padding {
+  padding: 24px;
+}
+
+.page-padding-top {
+  padding-top: 24px;
+}
+
+.page-padding-bottom {
+  padding-bottom: 24px;
+}
+
+.page-padding-left {
+  padding-left: 24px;
+}
+
+.page-padding-right {
+  padding-right: 24px;
+}
+
+.page-margin-top {
+  margin-top: 20px;
+}
+
+.page-margin-bottom {
+  margin-bottom: 20px;
+}
+
+.page-margin-left {
+  margin-left: 20px;
+}
+
+.page-margin-right {
+  margin-right: 20px;
+}
+
 .cursor-pointer {
   cursor: pointer;
 }
 
-.cursor-not-allowed {
-  cursor: not-allowed;
-}
-
 .font-bold {
-  font-weight: 700;
-}
-
-.disabled {
-  cursor: not-allowed;
-  opacity: 0.6;
-}
-
-.cursor-pointer {
-  cursor: pointer;
-}
-
-.font-bold {
-  font-weight: bold;
+  .font-weight-bold();
 }
 
 .page-white {
   background: #ffffff !important;
 }
 
-.user-no-select {
-  user-select: none;
+.tag-orange {
+  color: #d46b08;
+  background: #fff7e6;
+  border-color: #ffd591;
 }
 
-.pointer-no-events {
-  pointer-events: none;
+.bg-transparent {
+  background: transparent;
 }
 
-.border-radius-full {
-  border-radius: 100%;
+.center {
+  // width: 1200px;
+  margin: 0 auto;
 }
 
-.whitespace-pre-wrap {
-  white-space: pre-wrap;
+.font-unset() {
+  font-size: unset !important;
+  font-family: unset !important;
+  line-height: unset !important;
 }
 
-.z-1 {
-  z-index: 1;
-}
-
-.z-2 {
-  z-index: 2;
-}
-
-.z-30 {
-  z-index: 30;
-}
-
-.z-99 {
-  z-index: 99;
-}
-
-.z-88 {
-  z-index: 88;
-}
-
-.z-9999 {
-  z-index: 9999;
+.font-weight-bold() {
+  font-weight: 550 !important;
 }

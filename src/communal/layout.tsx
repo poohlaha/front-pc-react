@@ -20,7 +20,9 @@ import RouterUrls from '@route/router.url.toml'
 
 import '@ant-design/v5-patch-for-react-19'
 import { ConfigProvider } from 'antd'
+import { px2remTransformer, StyleProvider } from '@ant-design/cssinjs'
 import zhCN from 'antd/locale/zh_CN'
+import useMount from '@hooks/useMount'
 
 const { Suspense } = React
 
@@ -59,7 +61,8 @@ const RenderRoutes = (routes: RouteInterface[]) => {
 }
 
 // 切换皮肤
-const switchSkin = (skin: string = '') => {
+const switchSkin = (skin: string = '', font: { [K: string]: any } = {}) => {
+  /*
   let classList = document.body.classList || []
   const remove = () => {
     if (skin === CONSTANT.SKINS[0]) {
@@ -73,17 +76,43 @@ const switchSkin = (skin: string = '') => {
   if (!classList.contains(skin)) {
     classList.add(skin)
   }
+   */
+
+  document.body.setAttribute('class', '')
+
+  let className = `${font.fontFamily || ''} ${font.fontSize || ''} `
+  // 跟随系统
+  if (skin === CONSTANT.SKINS[2]) {
+    const isSystemDark = window.matchMedia('(prefers-color-scheme: dark)').matches
+    className += isSystemDark ? CONSTANT.SKINS[1] : CONSTANT.SKINS[0]
+  } else {
+    className += skin
+  }
+
+  document.body.setAttribute('class', className)
 }
 
 const Layout = (): ReactElement => {
   const { commonStore } = useStore()
 
   useEffect(() => {
-    switchSkin(commonStore.skin)
-  }, [commonStore.skin])
+    switchSkin(commonStore.skin, commonStore.font || {})
+  }, [commonStore.skin, commonStore.font.fontFamily, commonStore.font.fontSize])
+
+  useMount(() => {
+    commonStore.onGetSkin()
+  })
+
+  const px2rem = px2remTransformer({
+    rootValue: 16 // 32px = 1rem; @default 16
+  })
 
   const render = () => {
-    return <ConfigProvider locale={zhCN}>{RenderRoutes(routes)}</ConfigProvider>
+    return (
+      <StyleProvider transformers={[px2rem]}>
+        <ConfigProvider locale={zhCN}>{RenderRoutes(routes)}</ConfigProvider>
+      </StyleProvider>
+    )
   }
 
   return render()

@@ -1,52 +1,50 @@
 /**
- * @fileOverview Utils 黑色主题样式
+ * @fileOverview Utils 白色主题样式
  * @date 2023-3-14
  * @author poohlaha
  */
 // 主题
-@theme: #fd671a; // 默认主题色
-@theme_to: #fff4f6; // 橙色选中高亮
-@theme_hover: #f28248; // hover
-@theme_active: rgb(237, 102, 86); // active
-@theme_orange: @theme; // orange
-@theme_to_orange: @theme_to; // orange
-@theme_blue: #1989fa; // blue
-@theme_to_blue: #99c1e1; // blue
+@theme: #1989fa; // 默认主题色
+@theme_to: #92cbf7; // 橙色选中高亮
+@theme_orange: #fa8c16; // orange
+@theme_to_orange: rgba(255, 170, 160, 0.5); // orange
+@theme_blue: @theme; // blue
+@theme_to_blue: @theme_to; // blue
 
 // 常用颜色
 @disabled: #d3d2d1; // 失效颜色
-@color: #1e2346; // 颜色
-@color_sub: #646e82;
-@color_shadow: rgba(0, 0, 0, 0.1); // shadow color
-@color_gray: #afb4c3; // 正常灰色字体
-@color_gray_light: #999999; // 灰色, 一般用于未选中 tab 等
-@color_gray_lighter: rgba(0, 0, 0, 0.88); // 浅黑色, 一般用于字体较浅颜色等
-@color_gray_lightest: rgba(0, 0, 0, 0.4); // 淡浅黑色, 一般用于字体较浅颜色等
+@color: rgba(0, 0, 0, 0.88); // 颜色
+@color_active: @theme; // 颜色
+@color_shadow: rgba(255, 255, 255, 0.1); // shadow color
+@color_theme_inner: #f2f4f5; // 当设计背景色为主题色时, 内部颜色
+@color_gray: #666666; // 正常灰色字体
+@color_gray_light: #aaacb8; // 灰色, 一般用于未选中 tab 等
+@color_gray_lighter: rgba(0, 0, 0, 0.65); // 灰色
 @color_border_gray: #f1f3f6; // border
 @color_normal: #37373b; // 普通或图标下方等字体颜色
 @color_button: #ffbf47; // 按钮颜色
-@color_svg: #646e82; // svg color
-@color_menu_active: #f2f2f2; // 菜单激活颜色
-@color_expend: #ffffff;
-@color_resolve: #ffffff; // resolve color
-@color_green: #21cc9e; // 绿色
+@color_svg: rgb(25, 25, 26); // svg color
+@color_menu_active: #dfdfdf; // 菜单激活颜色
+@color_expend: #252626;
+@color_resolve: #24292f; // resolve color
+@color_desc: #646e82;
 
-// background
+// 背景
 @background: #ffffff; // 背景
-@background_right: #f4f5f9; // 右边背景
-@background_card: #ffffff;
-@background_answer: #ffffff;
-@background_gay: #f7f9fc;
-@background_theme: linear-gradient(96deg, #ff5541 0%, #ffa66c 100%);
-@background_login: #f7f9fc;
-@background_table_head: #f7f9fc;
+@background_left: rgb(242, 242, 243); // 左边背景
+@background_right: #ffffff; // 右边背景
+@background_card: #ffffff; // 卡片背景
+@background_gay: #f2f2f2;
+@background_table_head: #f7f9fc; // 表格头背景
+@background_theme: @theme;
 
 // 线条
-@divider: #dcdfe6; // 分割线颜色
+@divider: rgb(210 215 227 / 30%); // 分割线颜色
 @border: 1px solid @divider; // 线条
 @border_theme: 1px solid @theme; // 主题色线条
+@border_active: @border_theme; // 线条激活
 @border_button_plan: 1px solid #d2d7e3; // 扁平按钮边框
-@border_radius: 20px;
+@border_radius: 8px;
 
 // 其他
 @mask: rgba(0, 0, 0, 0.5); // 遮罩层颜色
@@ -56,8 +54,6 @@
   // 主题
   @theme,
   @theme_to,
-  @theme_hover,
-  @theme_active,
   @theme_orange,
   @theme_to_orange,
   @theme_blue,
@@ -66,12 +62,12 @@
   // 常用颜色
   @disabled,
   @color,
-  @color_sub,
+  @color_active,
   @color_shadow,
+  @color_theme_inner,
   @color_gray,
   @color_gray_light,
   @color_gray_lighter,
-  @color_gray_lightest,
   @color_border_gray,
   @color_normal,
   @color_button,
@@ -79,21 +75,21 @@
   @color_menu_active,
   @color_expend,
   @color_resolve,
-  @color_green,
+  @color_desc,
 
   @background,
+  @background_left,
   @background_right,
   @background_card,
-  @background_answer,
   @background_gay,
-  @background_theme,
-  @background_login,
   @background_table_head,
+  @background_theme,
 
   // 线条
   @divider,
   @border,
   @border_theme,
+  @border_active,
   @border_button_plan,
   @border_radius,
 

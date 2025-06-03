@@ -5,7 +5,7 @@
  */
 import commonStore from './base/common.store'
 import loginStore from './login/login.store'
-import homeStore from './home/home.store'
+import mainStore from './main/main.store'
 import registerStore from './basic/register.store'
 import userStore from './permission/user.store'
 import roleStore from './permission/role.store'
@@ -15,7 +15,7 @@ export function createStore() {
   return {
     commonStore,
     loginStore,
-    homeStore,
+    mainStore,
     registerStore,
     userStore,
     roleStore,

@@ -10,6 +10,7 @@ import dayjs from 'dayjs'
 import { USER } from '@views/utils/base'
 import useMount from '@hooks/useMount'
 import Register from '@pages/sample/dashboard/register'
+import Page from '@views/modules/page'
 
 const Dashboard = (): ReactElement => {
   const { dashboardStore } = useStore()
@@ -41,7 +42,12 @@ const Dashboard = (): ReactElement => {
 
   const render = () => {
     return (
-      <div className="dashboard-page wh100 p-8 overflow-y-auto">
+      <Page
+        className="dashboard-page wh100 overflow-y-auto"
+        title={{
+          show: false
+        }}
+      >
         {/* title */}
         <div className="page-title flex-align-center mb-6">
           <p className="flex-1 font-bold text-2xl">{getWelcome()}</p>
@@ -56,7 +62,7 @@ const Dashboard = (): ReactElement => {
             <Register />
           </div>
         </div>
-      </div>
+      </Page>
     )
   }
 

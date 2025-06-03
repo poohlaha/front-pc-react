@@ -1,5 +1,5 @@
 /**
- * @fileOverview home store
+ * @fileOverview main store
  * @date 2023-04-12
  * @author poohlaha
  */
@@ -12,7 +12,7 @@ import BackUrls from '@route/router.back.toml'
 import { ADDRESS, TOAST } from '@views/utils/base'
 import Utils from '@views/utils/utils'
 
-class HomeStore extends BaseStore {
+class MainStore extends BaseStore {
   // 用户信息
   @observable userInfo: { [K: string]: any } = {}
 
@@ -162,4 +162,4 @@ class HomeStore extends BaseStore {
   }
 }
 
-export default new HomeStore()
+export default new MainStore()
