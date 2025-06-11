@@ -2,7 +2,7 @@
 SUCCESS = 'SUCCESS'
 REQUEST_TIMEOUT = 50000
 PRODUCT_NAME = 'CHAT'
-SKINS = ['light', 'dark']
+SKINS = ['light', 'dark', 'system']
 LANGUAGES_NAME = 'lang'
 LANGUAGES = ['zh', 'en']
 

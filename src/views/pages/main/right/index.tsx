@@ -91,7 +91,9 @@ const Right = (): ReactElement => {
 
   const render = () => {
     return (
-      <div className="right overflow-x-auto bg-white flex-1 w100 position-relative flex-jsc-center">{getRoutes()}</div>
+      <div className="right bg-right overflow-x-auto bg-white flex-1 w100 position-relative flex-jsc-center">
+        {getRoutes()}
+      </div>
     )
   }
 

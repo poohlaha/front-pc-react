@@ -29,7 +29,7 @@ const Home = (): ReactElement => {
   const render = () => {
     return (
       <Page
-        className="main-page wh100 overflow-hidden bg-white"
+        className="main-page wh100 overflow-hidden color"
         contentClassName="flex-direction-column !p-0"
         loading={mainStore.loading}
         title={{

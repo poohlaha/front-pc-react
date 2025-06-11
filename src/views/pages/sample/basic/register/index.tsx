@@ -83,7 +83,7 @@ const Register = (): ReactElement => {
           {/* search */}
           <div className="page-search w100 p-5 flex-align-center">
             {/* 手机号码 */}
-            <div className="search-item flex-align-center mr-3">
+            <div className="search-item flex-align-center mr-3 h100">
               <p className="search-item-text mr-2">手机号码</p>
               <Input
                 placeholder="请输入"
@@ -97,12 +97,12 @@ const Register = (): ReactElement => {
             </div>
 
             {/* 注册时间 */}
-            <div className="search-item flex-align-center mr-3">
+            <div className="search-item flex-align-center mr-3 h100">
               <p className="search-item-text mr-2">注册时间</p>
               <DatePicker.RangePicker
                 showTime={false}
                 popupClassName="m-ant-picker-dropdown"
-                rootClassName="m-ant-picker-range"
+                rootClassName="m-ant-picker-range h100"
                 format={registerStore.DATE_FORMAT}
                 value={getDateValues()}
                 onChange={(_, dates) => {
@@ -113,7 +113,7 @@ const Register = (): ReactElement => {
             </div>
 
             {/* 按钮 */}
-            <div className="search-item flex-align-center">
+            <div className="search-item flex-align-center h100">
               <Button type="primary" className="mr-3 m-ant-button" onClick={async () => await registerStore.getList()}>
                 搜 索
               </Button>

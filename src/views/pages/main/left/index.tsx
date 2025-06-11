@@ -61,7 +61,7 @@ const Left = (props: ILeftProps): ReactElement => {
   const render = () => {
     const list = mainStore.MENU_LIST || []
     return (
-      <div className="left w-64 min-w-64 border-right flex-direction-column p-4">
+      <div className="left w-64 min-w-64 border-right flex-direction-column p-4 bg-left">
         {/* LOGO */}
         <div className="navigation-left w100 p-4 flex-center">
           <img src={LogoPng} className="logo cursor-pointer w-10 h-8" alt="" onClick={props.onHome} />

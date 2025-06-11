@@ -6,10 +6,11 @@ USER_TOKEN_NAME = '	z7$WT&5-*.HBONgdb90t$x-.c1D3krv7'
 USER_PHONE_NAME = '%PAIRoRWRM#mj8LvL%pTfcYzsDj#o!3!'
 TOKEN_NAME = 'token'
 TOKEN_EXPIRED_CODE = '-30001100'
+THEME_NAME = '$LrXcEn#Q0E8R6LjbfYk5zqcefJeLv@l'
+
+# DB
 DB_NAME = 'FrontPcDB'
 DB_VERSION = '1'
 CONSTANT_DB_NAME = 'FrontPcVariables'
 CONSTANT_DB_VERSION  = '1'
-
-THEME_NAME = 'x=2mu5jvMOa0YvzhBQA7eU(%uo7+-qT4'
 

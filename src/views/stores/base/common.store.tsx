@@ -8,7 +8,7 @@ import Utils from '@views/utils/utils'
 import { action, observable } from 'mobx'
 
 class CommonStore {
-  @observable skin = CONSTANT.SKINS[0] // 皮肤
+  @observable skin = CONSTANT.SKINS[2] // 皮肤
   @observable language = CONSTANT.LANGUAGES[0] // 语言
 
   readonly FONT_FAMILY_LIST: Array<{ [K: string]: any }> = [
@@ -79,6 +79,8 @@ class CommonStore {
     const skin = Utils.getLocal(SYSTEM.THEME_NAME) || ''
     if (!Utils.isBlank(skin)) {
       this.skin = skin || ''
+    } else {
+      this.onSkinChange(2)
     }
   }
 
