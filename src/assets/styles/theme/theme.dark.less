@@ -6,6 +6,8 @@
 // 主题
 @theme: #252626; // 默认主题色
 @theme_to: rgba(37, 38, 38, 0.5); // 橙色选中高亮
+@theme_hover: #222323; // hover
+@theme_active: #1d1d1d; // active
 @theme_orange: #fa8c16; // orange
 @theme_to_orange: rgba(255, 170, 160, 0.5); // orange
 @theme_blue: #1989fa; // blue
@@ -42,7 +44,7 @@
 @divider: #4f5052; // 分割线颜色
 @border: 1px solid @divider; // 线条
 @border_theme: 1px solid @theme; // 主题色线条
-@border_active: @border; // 线条激活
+@border_active: 1px solid @color_active; // 线条激活
 @border_button_plan: 1px solid #d2d7e3; // 扁平按钮边框
 @border_radius: 8px;
 
@@ -54,6 +56,8 @@
   // 主题
   @theme,
   @theme_to,
+  @theme_hover,
+  @theme_active,
   @theme_orange,
   @theme_to_orange,
   @theme_blue,

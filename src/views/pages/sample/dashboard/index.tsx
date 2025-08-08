@@ -49,7 +49,7 @@ const Dashboard = (): ReactElement => {
         }}
       >
         {/* title */}
-        <div className="page-title flex-align-center mb-6">
+        <div className="page-title flex-align-center mb-6 pt-6">
           <p className="flex-1 font-bold text-2xl">{getWelcome()}</p>
         </div>
 

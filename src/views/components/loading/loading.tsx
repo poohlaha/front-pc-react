@@ -7,6 +7,7 @@ import React, { ReactElement } from 'react'
 import Utils from '@views/utils/utils'
 
 interface ISampleProps {
+  className?: string
   show: boolean
   text?: string
 }
@@ -16,7 +17,9 @@ const Loading: React.FC<ISampleProps> = (props: ISampleProps): ReactElement | nu
     if (!props.show) return null
 
     return (
-      <div className={`loading spin w100 flex-center ${!Utils.isBlank(props.text || '') ? '!relative h-10' : 'h100'}`}>
+      <div
+        className={`loading spin w100 flex-center ${!Utils.isBlank(props.text || '') ? '!relative h-10' : 'h100'} ${props.className || ''}`}
+      >
         <svg
           className="h-5 w-5"
           viewBox="0 0 1024 1024"

@@ -8,7 +8,7 @@ import { observer } from 'mobx-react-lite'
 import Page from '@views/modules/page'
 import { useStore } from '@views/stores'
 import RouterUrls from '@route/router.url.toml'
-import { Pagination, Table, Tag } from 'antd'
+import { Button, Pagination, Table, Tag } from 'antd'
 import useMount from '@hooks/useMount'
 import Utils from '@views/utils/utils'
 
@@ -61,6 +61,14 @@ const Role = (): ReactElement => {
     }
   ]
 
+  const getPageTitleRight = () => {
+    return (
+      <Button type="primary" className="m-ant-button" onClick={async () => {}}>
+        新增
+      </Button>
+    )
+  }
+
   const render = () => {
     const tableStyle: any = {}
     if (tableHeight > 0) {
@@ -73,13 +81,14 @@ const Role = (): ReactElement => {
         loading={roleStore.loading}
         contentClassName="flex-direction-column"
         title={{
-          label: RouterUrls.PERMISSION.USER.NAME || ''
+          label: RouterUrls.PERMISSION.USER.NAME || '',
+          right: getPageTitleRight()
         }}
       >
         {/* content */}
         <div className="page-content flex-1 flex-direction-column pt-5">
           {/* table */}
-          <div className="page-wrapper w100 flex-1 flex-direction-column pl-5 pr-5">
+          <div className="page-wrapper w100 flex-1 flex-direction-column">
             {/* table */}
             {tableStyle.y > 0 && (
               <Table

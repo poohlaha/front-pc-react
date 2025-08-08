@@ -17,16 +17,28 @@ import { CONSTANT } from '@config/index'
 import '@assets/styles/common/tailwind.css'
 import '@assets/styles/theme/index.less'
 import RouterUrls from '@route/router.url.toml'
+import { useLocation } from 'react-router-dom'
 
 import '@ant-design/v5-patch-for-react-19'
 import { ConfigProvider } from 'antd'
 import { px2remTransformer, StyleProvider } from '@ant-design/cssinjs'
 import zhCN from 'antd/locale/zh_CN'
 import useMount from '@hooks/useMount'
+import dayjs from 'dayjs'
+import 'dayjs/locale/zh-cn'
+
+dayjs.locale('zh-cn')
+
+// 解决 Object.hasOwn 报错问题
+if (!Object.hasOwn) {
+  Object.hasOwn = (obj, key) => Object.prototype.hasOwnProperty.call(obj, key)
+}
 
 const { Suspense } = React
 
 const RenderRoutes = (routes: RouteInterface[]) => {
+  const location = useLocation()
+
   // 判断没用的路由, 跳转到404
   let usedRoutes: Array<RouteInterface> = []
   for (let router of routes) {
@@ -37,7 +49,7 @@ const RenderRoutes = (routes: RouteInterface[]) => {
 
   if (usedRoutes.length > 0) {
     return (
-      <Routes>
+      <Routes location={location} key={location.key}>
         {routes.map((route: RouteInterface, index: number) => {
           return (
             <Route

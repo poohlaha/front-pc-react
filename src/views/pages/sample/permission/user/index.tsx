@@ -95,10 +95,10 @@ const User = (): ReactElement => {
         {/* content */}
         <div className="page-content flex-1 flex-direction-column">
           {/* search */}
-          <div className="page-search w100 p-5 flex-align-center"></div>
+          <div className="page-search w100 pb-5 pt-5 flex-align-center"></div>
 
           {/* table */}
-          <div className="page-wrapper w100 flex-1 flex-direction-column pl-5 pr-5">
+          <div className="page-wrapper w100 flex-1 flex-direction-column">
             {/* table */}
             {tableStyle.y > 0 && (
               <Table
